@@ -1,21 +1,28 @@
-import { useLang } from '../context/LanguageContext'
-import { strings } from '../data/i18n'
-import TornEdge from './TornEdge'
-import TornSheet from './TornSheet'
+import { useLang } from "../context/LanguageContext"
+import { strings } from "../data/i18n"
+import TornEdge from "./TornEdge"
+import TornSheet from "./TornSheet"
 
 export default function Education() {
   const { t } = useLang()
   const s = strings.education
 
   return (
-    <section id="education" className="relative bg-board pb-20 pt-14 text-ink sm:pt-16">
-      <TornEdge color="var(--color-blue)" variant="c" className="absolute inset-x-0 top-0 h-10" />
+    <section
+      id="education"
+      className="relative bg-board pb-20 pt-14 text-ink sm:pt-16"
+    >
+      <TornEdge
+        color="var(--color-blue)"
+        variant="c"
+        className="absolute inset-x-0 top-0 h-10"
+      />
 
       <div className="relative mx-auto max-w-[1400px] px-4 sm:px-6">
         <header className="flex flex-wrap items-end justify-between gap-4 border-b-2 border-ink/30 pb-4">
           <h2
             className="font-display leading-[0.94] tracking-[-0.035em]"
-            style={{ fontSize: 'clamp(2rem, 4.8vw, 4rem)' }}
+            style={{ fontSize: "clamp(2rem, 4.8vw, 4rem)" }}
           >
             {t(s.heading)}
           </h2>
@@ -70,7 +77,10 @@ export default function Education() {
                 {t(s.switchNote)}
               </p>
             </TornSheet>
-            <span className="tape absolute -top-2 left-6 h-4 w-12 rotate-2" aria-hidden="true" />
+            <span
+              className="tape absolute -top-2 left-6 h-4 w-12 rotate-2"
+              aria-hidden="true"
+            />
           </div>
         </div>
       </div>

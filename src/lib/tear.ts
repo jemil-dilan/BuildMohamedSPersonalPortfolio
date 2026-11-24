@@ -13,7 +13,7 @@ function rng(seed: number) {
  */
 export function tearPolygon(seed: number, amp = 10) {
   const r = rng(seed)
-  const pts: string[] = ['0% 0%', '100% 0%']
+  const pts: string[] = ["0% 0%", "100% 0%"]
   let x = 100
   let depth = amp * 0.35
 
@@ -28,5 +28,5 @@ export function tearPolygon(seed: number, amp = 10) {
     pts.push(`${x.toFixed(2)}% calc(100% - ${depth.toFixed(1)}px)`)
   }
 
-  return `polygon(${pts.join(', ')})`
+  return `polygon(${pts.join(", ")})`
 }

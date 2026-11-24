@@ -1,34 +1,34 @@
-import { useEffect, useState } from 'react'
-import { AnimatePresence, motion } from 'motion/react'
-import { useLang } from '../context/LanguageContext'
-import { strings } from '../data/i18n'
-import TornEdge from './TornEdge'
+import { useEffect, useState } from "react"
+import { AnimatePresence, motion } from "motion/react"
+import { useLang } from "../context/LanguageContext"
+import { strings } from "../data/i18n"
+import TornEdge from "./TornEdge"
 
 const links = [
-  { key: 'work', href: '#work', tilt: '-1.1deg' },
-  { key: 'stack', href: '#stack', tilt: '0.7deg' },
-  { key: 'exp', href: '#experience', tilt: '-0.5deg' },
-  { key: 'teaching', href: '#teaching', tilt: '0.9deg' },
-  { key: 'contact', href: '#contact', tilt: '-0.7deg' },
+  { key: "work", href: "#work", tilt: "-1.1deg" },
+  { key: "stack", href: "#stack", tilt: "0.7deg" },
+  { key: "exp", href: "#experience", tilt: "-0.5deg" },
+  { key: "teaching", href: "#teaching", tilt: "0.9deg" },
+  { key: "contact", href: "#contact", tilt: "-0.7deg" },
 ] as const
 
 export default function Nav() {
   const { lang, setLang, t } = useLang()
-  const [active, setActive] = useState('')
+  const [active, setActive] = useState("")
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
-    const ids = links.map(l => l.href.slice(1))
+    const ids = links.map((l) => l.href.slice(1))
     const obs = new IntersectionObserver(
-      entries => {
+      (entries) => {
         const visible = entries
-          .filter(e => e.isIntersecting)
+          .filter((e) => e.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
         if (visible[0]) setActive(visible[0].target.id)
       },
-      { threshold: [0.12, 0.35, 0.6], rootMargin: '-22% 0px -48% 0px' },
+      { threshold: [0.12, 0.35, 0.6], rootMargin: "-22% 0px -48% 0px" },
     )
-    ids.forEach(id => {
+    ids.forEach((id) => {
       const el = document.getElementById(id)
       if (el) obs.observe(el)
     })
@@ -37,13 +37,13 @@ export default function Nav() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false)
+      if (e.key === "Escape") setOpen(false)
     }
-    document.addEventListener('keydown', onKey)
-    document.body.style.overflow = open ? 'hidden' : ''
+    document.addEventListener("keydown", onKey)
+    document.body.style.overflow = open ? "hidden" : ""
     return () => {
-      document.removeEventListener('keydown', onKey)
-      document.body.style.overflow = ''
+      document.removeEventListener("keydown", onKey)
+      document.body.style.overflow = ""
     }
   }, [open])
 
@@ -60,19 +60,22 @@ export default function Nav() {
               MNJD
             </a>
 
-            <nav aria-label="Sections" className="ml-2 hidden items-center gap-1.5 lg:flex">
-              {links.map(l => {
+            <nav
+              aria-label="Sections"
+              className="ml-2 hidden items-center gap-1.5 lg:flex"
+            >
+              {links.map((l) => {
                 const on = active === l.href.slice(1)
                 return (
                   <a
                     key={l.key}
                     href={l.href}
-                    aria-current={on ? 'true' : undefined}
-                    style={{ rotate: on ? '0deg' : l.tilt }}
+                    aria-current={on ? "true" : undefined}
+                    style={{ rotate: on ? "0deg" : l.tilt }}
                     className={`border px-3 py-2 font-cond text-[12px] uppercase leading-none tracking-[0.13em] transition-[transform,background-color,color,border-color] duration-200 hover:rotate-0 ${
                       on
-                        ? 'border-red bg-red text-chalk'
-                        : 'border-ink/15 bg-chalk/70 text-ink hover:bg-chalk'
+                        ? "border-red bg-red text-chalk"
+                        : "border-ink/15 bg-chalk/70 text-ink hover:bg-chalk"
                     }`}
                   >
                     {t(strings.nav[l.key])}
@@ -87,15 +90,17 @@ export default function Nav() {
                 role="group"
                 aria-label={t(strings.nav.langLabel)}
               >
-                {(['fr', 'en'] as const).map(code => (
+                {(["fr", "en"] as const).map((code) => (
                   <button
                     key={code}
                     type="button"
                     onClick={() => setLang(code)}
                     aria-pressed={lang === code}
-                    aria-label={code === 'fr' ? 'Français' : 'English'}
+                    aria-label={code === "fr" ? "Français" : "English"}
                     className={`px-2 py-1.5 font-label text-[11px] uppercase leading-none transition-colors duration-150 ${
-                      lang === code ? 'bg-ink text-chalk' : 'text-ink-faint hover:text-ink'
+                      lang === code
+                        ? "bg-ink text-chalk"
+                        : "text-ink-faint hover:text-ink"
                     }`}
                   >
                     {code}
@@ -112,7 +117,7 @@ export default function Nav() {
 
               <button
                 type="button"
-                onClick={() => setOpen(v => !v)}
+                onClick={() => setOpen((v) => !v)}
                 aria-expanded={open}
                 aria-controls="mobile-menu"
                 aria-label={open ? t(strings.nav.close) : t(strings.nav.menu)}
@@ -120,23 +125,27 @@ export default function Nav() {
               >
                 <span
                   className={`block h-[2px] w-4 bg-ink transition-transform duration-200 ${
-                    open ? 'translate-y-[7px] rotate-45' : ''
+                    open ? "translate-y-[7px] rotate-45" : ""
                   }`}
                 />
                 <span
                   className={`block h-[2px] w-4 bg-ink transition-opacity duration-200 ${
-                    open ? 'opacity-0' : ''
+                    open ? "opacity-0" : ""
                   }`}
                 />
                 <span
                   className={`block h-[2px] w-4 bg-ink transition-transform duration-200 ${
-                    open ? '-translate-y-[7px] -rotate-45' : ''
+                    open ? "-translate-y-[7px] -rotate-45" : ""
                   }`}
                 />
               </button>
             </div>
           </div>
-          <TornEdge color="var(--color-board)" lip={false} className="absolute inset-x-0 -bottom-5 h-5" />
+          <TornEdge
+            color="var(--color-board)"
+            lip={false}
+            className="absolute inset-x-0 -bottom-5 h-5"
+          />
         </div>
       </header>
 
@@ -159,11 +168,14 @@ export default function Nav() {
                   key={l.key}
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  style={{ rotate: i % 2 ? '0.8deg' : '-0.8deg' }}
+                  style={{ rotate: i % 2 ? "0.8deg" : "-0.8deg" }}
                   className="flex items-baseline justify-between gap-3 bg-chalk px-4 py-3 font-display text-[24px] leading-none text-ink shadow-[0_8px_18px_-14px_rgba(26,26,24,0.7)]"
                 >
                   {t(strings.nav[l.key])}
-                  <span aria-hidden="true" className="font-label text-[12px] text-red">
+                  <span
+                    aria-hidden="true"
+                    className="font-label text-[12px] text-red"
+                  >
                     →
                   </span>
                 </a>

@@ -1,7 +1,7 @@
-import { motion } from 'motion/react'
-import { useLang } from '../context/LanguageContext'
-import { strings } from '../data/i18n'
-import TornEdge from './TornEdge'
+import { motion } from "motion/react"
+import { useLang } from "../context/LanguageContext"
+import { strings } from "../data/i18n"
+import TornEdge from "./TornEdge"
 
 export default function Hero() {
   const { t } = useLang()
@@ -20,15 +20,15 @@ export default function Hero() {
             aria-hidden="true"
             className="pointer-events-none absolute right-0 top-1 hidden select-none font-display leading-none tracking-[-0.02em] text-transparent md:block"
             style={{
-              fontSize: 'clamp(3.5rem, 5vw, 4.8rem)',
-              WebkitTextStroke: '1.5px rgba(237,231,216,0.34)',
+              fontSize: "clamp(3.5rem, 5vw, 4.8rem)",
+              WebkitTextStroke: "1.5px rgba(237,231,216,0.34)",
             }}
           >
             BACKEND
           </span>
           <h1
             className="font-display leading-[0.76] tracking-[-0.04em]"
-            style={{ fontSize: 'clamp(3.5rem, 11.8vw, 9.2rem)' }}
+            style={{ fontSize: "clamp(3.5rem, 11.8vw, 9.2rem)" }}
           >
             <span
               aria-hidden="true"
@@ -44,7 +44,7 @@ export default function Hero() {
           <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2">
             <p className="font-cond text-[15px] uppercase leading-[1.15] tracking-[0.13em] text-chalk sm:text-[16px] sm:leading-none sm:tracking-[0.16em]">
               {t(s.role)
-                .split(' — ')
+                .split(" — ")
                 .map((part, i) => (
                   <span key={part}>
                     {i > 0 && <span className="hidden sm:inline"> — </span>}
@@ -68,7 +68,9 @@ export default function Hero() {
           </motion.p>
 
           <div className="mt-6 grid gap-6 md:grid-cols-[minmax(0,1fr)_auto] md:items-end md:gap-10">
-            <p className="max-w-[58ch] text-[14.5px] leading-[1.7] text-chalk">{t(s.body)}</p>
+            <p className="max-w-[58ch] text-[14.5px] leading-[1.7] text-chalk">
+              {t(s.body)}
+            </p>
 
             <div className="flex flex-wrap items-center gap-x-3 gap-y-3">
               <a
@@ -84,7 +86,10 @@ export default function Hero() {
                 {t(s.ctaContact)}
               </a>
               <span className="flex items-center gap-2 font-label text-[9.5px] uppercase tracking-[0.12em] text-chalk">
-                <span aria-hidden="true" className="h-2 w-2 rounded-full bg-chalk" />
+                <span
+                  aria-hidden="true"
+                  className="h-2 w-2 rounded-full bg-chalk"
+                />
                 {t(s.status)}
               </span>
             </div>
@@ -100,7 +105,11 @@ export default function Hero() {
       </div>
 
       <div className="relative bg-chalk text-ink">
-        <TornEdge color="var(--color-red)" variant="a" className="absolute inset-x-0 -top-12 h-12" />
+        <TornEdge
+          color="var(--color-red)"
+          variant="a"
+          className="absolute inset-x-0 -top-12 h-12"
+        />
 
         <div className="relative mx-auto grid max-w-[1400px] gap-8 px-4 pb-12 pt-12 sm:px-6 md:grid-cols-[1.1fr_0.85fr_auto] md:items-center md:gap-10 md:pt-14">
           <div>
@@ -113,13 +122,17 @@ export default function Hero() {
 
             <dl className="mt-2 divide-y divide-ink/20">
               <div className="flex items-baseline justify-between gap-4 py-2.5">
-                <dt className="font-cond text-[15px] leading-tight text-ink">{t(s.balanceA)}</dt>
+                <dt className="font-cond text-[15px] leading-tight text-ink">
+                  {t(s.balanceA)}
+                </dt>
                 <dd className="whitespace-nowrap font-label text-[10px] uppercase tracking-[0.08em] text-red">
                   {t(s.balanceADate)}
                 </dd>
               </div>
               <div className="flex items-baseline justify-between gap-4 py-2.5">
-                <dt className="font-cond text-[15px] leading-tight text-ink">{t(s.balanceB)}</dt>
+                <dt className="font-cond text-[15px] leading-tight text-ink">
+                  {t(s.balanceB)}
+                </dt>
                 <dd className="whitespace-nowrap font-label text-[10px] uppercase tracking-[0.08em] text-red">
                   {t(s.balanceBDate)}
                 </dd>
@@ -144,8 +157,8 @@ export default function Hero() {
               aria-hidden="true"
               className="font-display leading-none tracking-[-0.03em] text-transparent"
               style={{
-                fontSize: 'clamp(2.4rem, 4.8vw, 4.2rem)',
-                WebkitTextStroke: '1.5px var(--color-board-dark)',
+                fontSize: "clamp(2.4rem, 4.8vw, 4.2rem)",
+                WebkitTextStroke: "1.5px var(--color-board-dark)",
               }}
             >
               {t(s.yearOutline)}
@@ -164,7 +177,10 @@ export default function Hero() {
                 nfonkmohamed@gmail.com
               </span>
             </a>
-            <span className="tape absolute -top-2.5 left-5 h-4 w-12 -rotate-3" aria-hidden="true" />
+            <span
+              className="tape absolute -top-2.5 left-5 h-4 w-12 -rotate-3"
+              aria-hidden="true"
+            />
           </div>
         </div>
       </div>

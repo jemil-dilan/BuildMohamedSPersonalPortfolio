@@ -1,23 +1,39 @@
-import { useLang } from '../context/LanguageContext'
-import { strings } from '../data/i18n'
-import TornEdge from './TornEdge'
-import TornSheet from './TornSheet'
+import { useLang } from "../context/LanguageContext"
+import { strings } from "../data/i18n"
+import TornEdge from "./TornEdge"
+import TornSheet from "./TornSheet"
 
-const stageKeys = ['problem', 'domain', 'api', 'data', 'tests', 'review', 'docs', 'ship'] as const
+const stageKeys = [
+  "problem",
+  "domain",
+  "api",
+  "data",
+  "tests",
+  "review",
+  "docs",
+  "ship",
+] as const
 
 export default function HowIWork() {
   const { t } = useLang()
   const s = strings.howIWork
 
   return (
-    <section id="method" className="relative bg-chalk pb-16 pt-14 text-ink sm:pb-20 sm:pt-16">
-      <TornEdge color="var(--color-board)" variant="c" className="absolute inset-x-0 top-0 h-10" />
+    <section
+      id="method"
+      className="relative bg-chalk pb-16 pt-14 text-ink sm:pb-20 sm:pt-16"
+    >
+      <TornEdge
+        color="var(--color-board)"
+        variant="c"
+        className="absolute inset-x-0 top-0 h-10"
+      />
 
       <div className="relative mx-auto max-w-[1400px] px-4 sm:px-6">
         <header className="grid gap-5 md:grid-cols-[1.15fr_0.85fr] md:items-end md:gap-14">
           <h2
             className="max-w-[20ch] font-display leading-[0.94] tracking-[-0.035em]"
-            style={{ fontSize: 'clamp(2rem, 4.6vw, 3.8rem)' }}
+            style={{ fontSize: "clamp(2rem, 4.6vw, 3.8rem)" }}
           >
             {t(s.heading)}
           </h2>
@@ -33,7 +49,7 @@ export default function HowIWork() {
               className="flex gap-3 border-b border-ink/15 py-3.5 sm:gap-5 sm:py-4"
             >
               <span className="w-6 shrink-0 pt-0.5 font-label text-[10px] tracking-[0.08em] text-red">
-                {String(i + 1).padStart(2, '0')}
+                {String(i + 1).padStart(2, "0")}
               </span>
               <div className="flex flex-1 flex-col gap-1 md:flex-row md:items-baseline md:gap-6">
                 <span className="font-cond text-[15px] uppercase leading-none tracking-[0.1em] text-ink md:w-44 md:shrink-0">
@@ -58,7 +74,10 @@ export default function HowIWork() {
               {t(s.closing)}
             </blockquote>
           </TornSheet>
-          <span className="tape absolute -top-2 left-10 h-4 w-14 rotate-2" aria-hidden="true" />
+          <span
+            className="tape absolute -top-2 left-10 h-4 w-14 rotate-2"
+            aria-hidden="true"
+          />
         </div>
       </div>
     </section>

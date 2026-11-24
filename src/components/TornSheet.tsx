@@ -1,5 +1,5 @@
-import type { CSSProperties, ElementType, ReactNode } from 'react'
-import { tearPolygon } from '../lib/tear'
+import type { CSSProperties, ElementType, ReactNode } from "react"
+import { tearPolygon } from "../lib/tear"
 
 interface Props {
   children: ReactNode
@@ -19,10 +19,10 @@ export default function TornSheet({
   children,
   seed = 7,
   amp = 10,
-  className = '',
-  innerClassName = '',
+  className = "",
+  innerClassName = "",
   innerStyle,
-  as: Tag = 'div',
+  as: Tag = "div",
 }: Props) {
   return (
     <Tag className={`torn-sheet ${className}`}>

@@ -18,113 +18,144 @@ export interface Project {
   stack: string[]
   stackNote?: Localized
   link?: string
-  linkLabel?: 'viewLive' | 'viewSite'
+  linkLabel?: "viewLive" | "viewSite"
   status: Localized
-  tone: 'blue' | 'chalk' | 'red' | 'board'
+  tone: "blue" | "chalk" | "red" | "board"
   concept?: boolean
   path?: PathNode[]
 }
 
 export const projects: Project[] = [
   {
-    id: 'expoprepa',
-    num: '01',
-    name: 'ExpoPrepa',
-    category: { fr: 'EdTech · Évaluation linguistique', en: 'EdTech · Language assessment' },
+    id: "proxigaz",
+    num: "01",
+    name: "Proxi.gaz",
+    category: {
+      fr: "Livraison · Géospatial · Backend",
+      en: "Delivery · Geospatial · Backend",
+    },
     problem: {
-      fr: 'Rendre abordable et numérique la préparation aux certifications TCF, TEF et IELTS.',
-      en: 'Making TCF, TEF and IELTS certification prep affordable and digital.',
+      fr: "Simplifier l'accès au gaz domestique en connectant les ménages aux fournisseurs proches.",
+      en: "Simplifying access to domestic gas by connecting households with nearby suppliers.",
     },
     role: {
-      fr: "Développeur chez Logiaspace, l'équipe derrière ExpoPrepa. J'ai rejoint alors que le produit était encore en pré-lancement, j'ai travaillé sur différentes parties de la stack, et il est maintenant en ligne.",
-      en: "Developer at Logiaspace, the team behind ExpoPrepa. I joined while it was still pre-launch, worked across the stack, and it's now live.",
+      fr: "Fondateur & Développeur backend. Je conçois et construis la plateforme.",
+      en: "Founder & Backend Developer. I design and build the platform.",
     },
     roleLead: true,
     body: {
-      fr: "Le TCF, le TEF et l'IELTS sont les examens d'entrée pour les étudiants francophones qui souhaitent étudier ou travailler à l'étranger. La préparation est coûteuse et se fait principalement hors ligne. ExpoPrepa en fait un logiciel — examens simulés, entraînement à l'écoute et à la lecture, évaluation assistée, progression suivie selon les niveaux CECR.",
-      en: 'TCF, TEF and IELTS are the gateway exams for francophone students who want to study or work abroad. Preparation is expensive and mostly offline. ExpoPrepa turns it into software — simulated exams, listening and reading practice, assisted evaluation, progress tracked against CEFR levels.',
+      fr: "Une plateforme conçue pour simplifier l'accès au gaz domestique en connectant les ménages avec les fournisseurs de gaz à proximité et en permettant les commandes à domicile. Je conçois l'architecture backend avec Java et Spring Boot, développe les contrats d'API REST avec une approche OpenAPI-first, modélise les données relationnelles avec PostgreSQL et PostGIS, structure la découverte géospatiale des fournisseurs et les requêtes basées sur la localisation, et établis le déploiement conteneurisé avec validation automatique des spécifications API.",
+      en: "A platform designed to simplify access to domestic gas by connecting households with nearby gas suppliers and enabling home-delivery orders. I design the backend architecture using Java and Spring Boot, develop REST API contracts using an OpenAPI-first approach, model relational data with PostgreSQL and PostGIS, structure geospatial supplier discovery and location-based queries, and establish containerized deployment with automated API specification validation.",
     },
-    extra: {
-      fr: "La partie intéressante n'était pas de démarrer quelque chose. C'était d'arriver quelque part à moitié construit et de comprendre comment ça s'assemble — lire les décisions d'autres personnes, respecter les conventions déjà là, et y ajouter sans casser ce qui fonctionnait. C'était en pré-lancement quand j'ai rejoint. C'est en ligne maintenant.",
-      en: "The interesting part wasn't starting something. It was arriving somewhere half-built and working out how it fits together — reading other people's decisions, matching conventions that were already there, and adding to it without breaking what worked. It was pre-launch when I joined. It's live now.",
-    },
-    stack: [],
-    stackNote: {
-      fr: 'Contribution full-stack. La stack de production n\'est pas détaillée ici.',
-      en: 'Full-stack contribution. The production stack is not detailed here.',
-    },
-    link: 'https://expoprepa.com/',
-    linkLabel: 'viewLive',
-    status: { fr: 'En ligne', en: 'Live' },
-    tone: 'blue',
-  },
-  {
-    id: 'lifekora',
-    num: '02',
-    name: 'Lifekora',
-    category: { fr: 'Santé · Microservices', en: 'Healthcare · Microservices' },
-    problem: {
-      fr: 'Connecter les donneurs de sang et les receveurs de manière fiable.',
-      en: 'Connecting blood donors and recipients, reliably.',
-    },
-    role: { fr: "Je l'ai conçu et développé.", en: 'I designed and built this.' },
-    body: {
-      fr: "Une plateforme basée sur des microservices Spring Boot connectant donneurs et receveurs. J'ai développé des APIs RESTful pour la gestion des donneurs, des collecteurs et des rendez-vous avec Spring Data JPA et PostgreSQL. Le domaine a de vraies contraintes — compatibilité sanguine, fenêtres d'éligibilité des donneurs, planification des rendez-vous — et la modéliser correctement était le vrai travail.",
-      en: 'A Spring Boot microservice-based platform connecting blood donors and recipients. I developed RESTful APIs for donor, collector and appointment management using Spring Data JPA and PostgreSQL. The domain has real rules — blood-type compatibility, donor eligibility windows, appointment scheduling — and modelling it correctly was the actual work.',
-    },
-    stack: ['Spring Boot', 'REST APIs', 'Spring Data JPA', 'PostgreSQL', 'Microservices'],
-    link: 'https://life-kora.com/',
-    linkLabel: 'viewSite',
-    status: { fr: 'En ligne', en: 'Live' },
-    tone: 'chalk',
-    path: [
-      { label: 'POST /api/appointments', sub: { fr: 'entrée', en: 'entry' } },
-      { label: 'Spring Security', sub: { fr: 'authentifier', en: 'authenticate' } },
-      { label: 'AppointmentController', sub: { fr: 'valider', en: 'validate' } },
-      { label: 'DonorMatchingService', sub: { fr: 'compatibilité · éligibilité', en: 'compatibility · eligibility' } },
-      { label: 'Spring Data JPA', sub: { fr: 'requêtes', en: 'queries' } },
-      { label: 'PostgreSQL', sub: { fr: 'persistance', en: 'persist' } },
+    stack: [
+      "Java",
+      "Spring Boot",
+      "PostgreSQL",
+      "PostGIS",
+      "OpenAPI",
+      "Docker",
+      "Gradle",
     ],
+    status: { fr: "En développement", en: "In Development" },
+    tone: "red",
   },
   {
-    id: 'suku',
-    num: '03',
-    name: 'Suku',
-    category: { fr: 'Éducation · Évaluation · Backend', en: 'Education · Assessment · Backend' },
+    id: "expoprepa",
+    num: "02",
+    name: "ExpoPrepa",
+    category: {
+      fr: "EdTech · Préparation aux examens",
+      en: "EdTech · Examination Preparation",
+    },
     problem: {
-      fr: "Systèmes d'évaluation et de suivi des performances pour la préparation aux examens d'entrée.",
-      en: 'Assessment and performance-tracking systems for entrance exam prep.',
+      fr: "Aider les étudiants et professionnels à se préparer aux tests de compétence linguistique.",
+      en: "Helping students and professionals prepare for language proficiency tests.",
     },
     role: {
-      fr: "J'ai refactorisé et testé les APIs existantes, et développé de nouvelles fonctionnalités.",
-      en: 'I refactored and tested existing APIs, and developed new features.',
+      fr: "Développeur logiciel chez Logiaspace.",
+      en: "Software Developer — Logiaspace",
     },
+    roleLead: false,
     body: {
-      fr: "J'ai développé une plateforme d'évaluation et d'éducation des étudiants en Java, Spring Boot et MySQL pour la préparation aux examens d'entrée. J'ai refactorisé et testé des APIs REST pour la gestion des quiz, le suivi des performances et les paiements des enseignants en temps réel, en gérant les versions avec Git. Travailler sur un logiciel éducatif m'a appris que la logique backend n'est pas invisible pour les utilisateurs. Si la notation est incorrecte ou lente, un étudiant le ressent immédiatement.",
-      en: "I developed a student assessment and evaluation platform using Java, Spring Boot and MySQL for entrance exam preparation, and refactored and tested REST APIs for quiz management, performance tracking and real-time teacher payouts, managing versioning with Git. Working on education software taught me that backend logic isn't invisible to users. If scoring is wrong or slow, a student feels it immediately.",
+      fr: "ExpoPrepa est une plateforme de préparation aux examens en ligne conçue pour aider les étudiants et professionnels à se préparer aux tests de compétence linguistique comme TCF, TEF et IELTS. Elle fournit un environnement numérique pour pratiquer les exercices d'examen, évaluer les compétences linguistiques et suivre les progrès de préparation via des simulations de tests structurées. Je contribue au développement et à l'évolution de l'application web, travaille avec React pour développer et maintenir les composants de l'application frontend, développe et intègre des fonctionnalités backend avec Node.js et Express.js, travaille avec MongoDB pour la persistance des données de l'application, supporte la communication entre les composants frontend et les services backend via des APIs REST, et utilise Docker pour supporter le développement et le déploiement de l'application conteneurisée.",
+      en: "ExpoPrepa is an online examination preparation platform designed to help students and professionals prepare for language proficiency tests such as TCF, TEF, and IELTS. It provides a digital environment for practicing examination exercises, evaluating language skills, and tracking preparation progress through structured test simulations. I contribute to the development and evolution of the web application, work with React to develop and maintain frontend application components, develop and integrate backend functionality using Node.js and Express.js, work with MongoDB for application data persistence, support communication between frontend components and backend services through REST APIs, and use Docker to support containerized application development and deployment.",
     },
-    stack: ['Java', 'Spring Boot', 'MySQL', 'REST APIs', 'Git'],
-    status: { fr: 'Réalisé', en: 'Built' },
-    tone: 'red',
+    extra: {
+      fr: "La partie intéressante n'était pas de démarrer quelque chose. C'était d'arriver quelque part à moitié construit et de comprendre comment ça s'assemble — lire les décisions d'autres personnes, respecter les conventions déjà là, et y ajouter sans casser ce qui fonctionnait.",
+      en: "The interesting part wasn't starting something. It was arriving somewhere half-built and working out how it fits together — reading other people's decisions, matching conventions that were already there, and adding to it without breaking what worked.",
+    },
+    stack: ["React", "Node.js", "Express.js", "MongoDB", "Docker"],
+    link: "https://expoprepa.com/",
+    linkLabel: "viewLive",
+    status: { fr: "En développement", en: "Product Development" },
+    tone: "blue",
   },
   {
-    id: 'movia',
-    num: '04',
-    name: 'Movia',
-    category: { fr: 'Transport · Concept', en: 'Transport · Concept' },
+    id: "lifekora",
+    num: "03",
+    name: "LifeKora",
+    category: {
+      fr: "Santé · Gestion de dons de sang",
+      en: "Healthcare · Blood Donation Management",
+    },
     problem: {
-      fr: "Qu'est-ce qu'un opérateur de transport a réellement besoin d'un logiciel pour suivre\u00a0?",
-      en: 'What does a transport business actually need software to track?',
+      fr: "Faciliter les activités de don de sang en connectant les donneurs aux responsables de la coordination.",
+      en: "Facilitating blood donation activities by connecting donors with coordinators.",
     },
-    role: { fr: "J'ai conçu ce concept.", en: 'I designed this concept.' },
+    role: {
+      fr: "Développeur backend chez LAO SARL.",
+      en: "Backend Developer — LAO SARL",
+    },
     body: {
-      fr: "Un concept pour les opérateurs de transport — routes, trajets, réservations, sièges, billets. Je l'ai conçu pour réfléchir à ce qu'une entreprise de transport a réellement besoin que le logiciel gère.",
-      en: 'A concept for transport operators — routes, trips, bookings, seats, tickets. I designed it to think through what a transport business actually needs software to track.',
+      fr: "LifeKora est une plateforme numérique conçue pour faciliter les activités de don de sang en connectant les donneurs avec les responsables de la coordination de la collecte de sang. Elle fournit un système centralisé pour gérer les informations des donneurs, les collecteurs de sang et les rendez-vous de don, aidant à organiser et rationaliser le processus de don de sang. Je développe des APIs REST pour la gestion des informations des donneurs, implémente des fonctionnalités backend pour la gestion des collecteurs de sang, construis des endpoints de gestion des rendez-vous pour soutenir les workflows de planification des dons, structure les services backend pour supporter les opérations métier principales de la plateforme, expose des endpoints d'API documentés pour l'intégration frontend, et contribue à l'intégration entre les services backend et le frontend Vue.js.",
+      en: "LifeKora is a digital platform designed to facilitate blood donation activities by connecting donors with the people responsible for coordinating blood collection. It provides a centralized system for managing donor information, blood collectors, and donation appointments, helping organize and streamline the blood donation process. I develop REST APIs for donor information management, implement backend functionality for blood collector management, build appointment management endpoints to support donation scheduling workflows, structure backend services to support the platform's core business operations, expose documented API endpoints for frontend integration, and contribute to the integration between backend services and the Vue.js frontend.",
     },
-    stack: ['Spring Boot', 'REST APIs', 'PostgreSQL'],
-    stackNote: { fr: 'Conçu, pas déployé.', en: 'Designed, not deployed.' },
-    status: { fr: 'Concept', en: 'Concept' },
-    tone: 'board',
-    concept: true,
+    stack: [
+      "Java",
+      "Spring Boot",
+      "PostgreSQL",
+      "OpenAPI",
+      "Docker",
+      "Gradle",
+      "Vue.js",
+    ],
+    link: "https://life-kora.com/",
+    linkLabel: "viewSite",
+    status: { fr: "En développement", en: "Product Development" },
+    tone: "chalk",
+  },
+  {
+    id: "suku",
+    num: "04",
+    name: "SUKU",
+    category: {
+      fr: "Éducation · Évaluation et apprentissage",
+      en: "Education · Assessment and Learning",
+    },
+    problem: {
+      fr: "Aider les apprenants à pratiquer, évaluer leurs connaissances et suivre leurs performances.",
+      en: "Helping learners practice, evaluate their knowledge, and monitor their performance.",
+    },
+    role: {
+      fr: "Développeur backend chez LAO SARL.",
+      en: "Backend Developer — LAO SARL",
+    },
+    body: {
+      fr: "SUKU est une plateforme d'évaluation et d'apprentissage en ligne conçue pour aider les apprenants à pratiquer, évaluer leurs connaissances et suivre leurs performances académiques. Elle offre des expériences d'évaluation via des quiz et exercices, permettant aux utilisateurs de tester leur compréhension tout en aidant les enseignants à gérer les activités d'apprentissage. Je développe des APIs backend pour la gestion des quiz et les workflows d'évaluation, implémente des fonctionnalités pour le suivi et la récupération des performances des apprenants, construis des fonctionnalités backend supportant la gestion des paiements des enseignants, structure des endpoints REST pour supporter les opérations d'évaluation et d'apprentissage de la plateforme, documente les contrats d'API avec OpenAPI pour l'intégration frontend, et contribue à l'intégration backend/frontend avec l'application Vue.js.",
+      en: "SUKU is an online assessment and learning platform designed to help learners practice, evaluate their knowledge, and monitor their academic performance. It provides assessment experiences through quizzes and exercises, enabling users to test their understanding while supporting teachers in managing learning activities. I develop backend APIs for quiz management and assessment workflows, implement functionality for tracking and retrieving learner performance, build backend features supporting teacher payout management, structure REST endpoints to support the platform's assessment and learning operations, document API contracts using OpenAPI for frontend integration, and contribute to backend/frontend integration with the Vue.js application.",
+    },
+    stack: [
+      "Java",
+      "Spring Boot",
+      "PostgreSQL",
+      "OpenAPI",
+      "Docker",
+      "Gradle",
+      "Vue.js",
+    ],
+    link: "https://suku.cm/",
+    linkLabel: "viewLive",
+    status: { fr: "En développement", en: "Product Development" },
+    tone: "board",
   },
 ]

@@ -1,7 +1,7 @@
-import { useLang } from '../context/LanguageContext'
-import { strings } from '../data/i18n'
-import TornEdge from './TornEdge'
-import TornSheet from './TornSheet'
+import { useLang } from "../context/LanguageContext"
+import { strings } from "../data/i18n"
+import TornEdge from "./TornEdge"
+import TornSheet from "./TornSheet"
 
 export default function Intro() {
   const { t } = useLang()
@@ -16,12 +16,25 @@ export default function Intro() {
   ]
 
   return (
-    <section id="about" className="relative bg-board pb-16 pt-12 text-ink sm:pb-20 sm:pt-16">
-      <TornEdge color="var(--color-chalk)" variant="b" className="absolute inset-x-0 top-0 h-10" />
+    <section
+      id="about"
+      className="relative bg-board pb-16 pt-12 text-ink sm:pb-20 sm:pt-16"
+    >
+      <TornEdge
+        color="var(--color-chalk)"
+        variant="b"
+        className="absolute inset-x-0 top-0 h-10"
+      />
       <div className="relative mx-auto max-w-[1400px] px-4 sm:px-6">
         <div className="relative">
-          <span className="tape absolute -top-3 left-[12%] z-10 h-5 w-24 -rotate-2" aria-hidden="true" />
-          <span className="tape absolute -top-2 right-[16%] z-10 h-5 w-16 rotate-1" aria-hidden="true" />
+          <span
+            className="tape absolute -top-3 left-[12%] z-10 h-5 w-24 -rotate-2"
+            aria-hidden="true"
+          />
+          <span
+            className="tape absolute -top-2 right-[16%] z-10 h-5 w-16 rotate-1"
+            aria-hidden="true"
+          />
 
           <TornSheet
             seed={21}
@@ -31,7 +44,7 @@ export default function Intro() {
             <div className="border-b-2 border-ink/25 pb-4">
               <h2
                 className="max-w-[19ch] font-display leading-[0.94] tracking-[-0.035em]"
-                style={{ fontSize: 'clamp(2rem, 4.6vw, 3.9rem)' }}
+                style={{ fontSize: "clamp(2rem, 4.6vw, 3.9rem)" }}
               >
                 {t(s.heading)}
               </h2>
@@ -57,8 +70,8 @@ export default function Intro() {
 
                 <p className="mt-5 max-w-[36ch] font-label text-[10px] uppercase leading-[1.8] tracking-[0.08em] text-ink-faint">
                   {t({
-                    fr: 'Le diplôme avance en même temps que le travail. Le travail nourrit le diplôme.',
-                    en: 'The degree moves at the same time as the work. The work feeds the degree.',
+                    fr: "Le diplôme avance en même temps que le travail. Le travail nourrit le diplôme.",
+                    en: "The degree moves at the same time as the work. The work feeds the degree.",
                   })}
                 </p>
               </div>
@@ -82,13 +95,17 @@ export default function Intro() {
                   <div
                     key={t(item.k)}
                     className={`py-3 lg:px-4 ${
-                      i > 0 ? 'border-t border-ink/15 lg:border-t-0 lg:border-l' : ''
-                    } ${i === 0 ? 'lg:pl-0' : ''}`}
+                      i > 0
+                        ? "border-t border-ink/15 lg:border-t-0 lg:border-l"
+                        : ""
+                    } ${i === 0 ? "lg:pl-0" : ""}`}
                   >
                     <dt className="font-label text-[9px] uppercase leading-relaxed tracking-[0.14em] text-ink-faint">
                       {t(item.k)}
                     </dt>
-                    <dd className="mt-1.5 font-cond text-[16px] leading-[1.15] text-ink">{t(item.v)}</dd>
+                    <dd className="mt-1.5 font-cond text-[16px] leading-[1.15] text-ink">
+                      {t(item.v)}
+                    </dd>
                   </div>
                 ))}
               </dl>
