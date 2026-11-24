@@ -1,154 +1,152 @@
-import { useRef } from 'react'
-import { motion, useInView } from 'motion/react'
 import { useLang } from '../context/LanguageContext'
 import { strings } from '../data/i18n'
+import TornSheet from './TornSheet'
 
-export default function Experience() {
-  const { t } = useLang()
-  const ref = useRef<HTMLElement>(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
-  const s = strings.experience
-
-  return (
-    <section ref={ref} id="experience" className="py-24 px-6 bg-surface border-t border-border">
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="grid md:grid-cols-[1fr_2fr] gap-16 items-start mb-16">
-          <div>
-            <span className="font-mono text-[10px] text-ink-faint uppercase tracking-widest">
-              {t({ fr: '// expérience', en: '// experience' })}
-            </span>
-            <motion.h2
-              initial={{ opacity: 0, y: 14 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.4 }}
-              className="font-display text-3xl md:text-4xl font-semibold text-ink leading-tight mt-2"
-            >
-              {t(s.heading)}
-            </motion.h2>
-          </div>
-          <div />
-        </div>
-
-        {/* Concurrent tag */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.1 }}
-          className="flex items-center gap-3 mb-8"
-        >
-          <div className="h-px flex-1 bg-border" />
-          <span className="font-mono text-[10px] text-ink-faint border border-border rounded-sm px-2.5 py-1 whitespace-nowrap uppercase tracking-wider">
-            {t(s.concurrent)} · Jan 2026 – {t(s.present)}
-          </span>
-          <div className="h-px flex-1 bg-border" />
-        </motion.div>
-
-        {/* Two concurrent roles */}
-        <div className="grid md:grid-cols-2 gap-5 mb-12">
-          <RoleCard
-            inView={inView} delay={0.18}
-            company="Logiaspace"
-            tag={t(s.remote)}
-            accentTag
-            title={t(s.logiaspace.title)}
-            period={`Jan 2026 – ${t(s.present)}`}
-            bullets={s.logiaspace.bullets[t({ fr: 'fr', en: 'en' }) as 'fr' | 'en']}
-            accent
-          />
-          <RoleCard
-            inView={inView} delay={0.26}
-            company="Lao Sarl"
-            title={t(s.laoJunior.title)}
-            period={`Mar 2025 – ${t(s.present)}`}
-            bullets={s.laoJunior.bullets[t({ fr: 'fr', en: 'en' }) as 'fr' | 'en']}
-            promotion={t(s.promotion)}
-          />
-        </div>
-
-        {/* Divider with internship label */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.36 }}
-          className="flex items-center gap-3 mb-8"
-        >
-          <div className="h-px flex-1 bg-border" />
-          <span className="font-mono text-[10px] text-ink-faint uppercase tracking-wider whitespace-nowrap">
-            Nov 2024 – Feb 2025
-          </span>
-          <div className="h-px flex-1 bg-border" />
-        </motion.div>
-
-        {/* Intern role */}
-        <div className="md:w-1/2">
-          <RoleCard
-            inView={inView} delay={0.44}
-            company="Lao Sarl"
-            title={t(s.laoIntern.title)}
-            period="Nov 2024 – Feb 2025"
-            bullets={s.laoIntern.bullets[t({ fr: 'fr', en: 'en' }) as 'fr' | 'en']}
-          />
-        </div>
-      </div>
-    </section>
-  )
-}
-
-interface RoleCardProps {
-  inView: boolean
-  delay: number
+interface RoleProps {
+  seed: number
+  tone: 'blue' | 'chalk' | 'chalk-2'
   company: string
   title: string
   period: string
   bullets: readonly string[]
-  accent?: boolean
   tag?: string
-  accentTag?: boolean
-  promotion?: string
+  note?: string
+  width: string
+  offset: string
+  z: string
+  tilt: string
 }
 
-function RoleCard({ inView, delay, company, title, period, bullets, accent, tag, accentTag, promotion }: RoleCardProps) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 14 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ delay, duration: 0.35 }}
-      className={`rounded-lg border overflow-hidden ${accent ? 'border-accent/25' : 'border-border'}`}
-    >
-      {/* Card header bar */}
-      <div className={`px-5 py-4 border-b flex items-start justify-between gap-3 ${accent ? 'bg-accent-light border-accent/20' : 'bg-paper border-border'}`}>
-        <div>
-          <div className="font-mono text-[10px] text-ink-faint uppercase tracking-wider mb-1">{company}</div>
-          <div className="font-display text-lg font-semibold text-ink leading-tight">{title}</div>
-          <div className="font-mono text-[10px] text-ink-muted mt-1">{period}</div>
-        </div>
-        {tag && (
-          <span className={`font-mono text-[10px] rounded-sm px-2 py-0.5 shrink-0 border ${
-            accentTag ? 'text-accent border-accent/30 bg-accent-light' : 'text-ink-faint border-border'
-          }`}>
-            {tag}
-          </span>
-        )}
-      </div>
+function RoleSheet({
+  seed,
+  tone,
+  company,
+  title,
+  period,
+  bullets,
+  tag,
+  note,
+  width,
+  offset,
+  z,
+  tilt,
+}: RoleProps) {
+  const isBlue = tone === 'blue'
+  const text = isBlue ? 'text-chalk' : 'text-ink'
+  const soft = isBlue ? 'text-chalk' : 'text-ink-soft'
+  const rule = isBlue ? 'border-chalk/35' : 'border-ink/25'
+  const mark = isBlue ? 'text-chalk' : 'text-red'
+  const bg = isBlue ? 'bg-blue' : tone === 'chalk-2' ? 'bg-chalk-2' : 'bg-chalk'
 
-      {/* Bullets */}
-      <div className="px-5 py-4">
-        {promotion && (
-          <div className="font-mono text-[10px] text-accent mb-3 flex items-center gap-1.5">
-            <span>↑</span>
-            <span>{promotion}</span>
+  return (
+    <div className={`relative ${z} ${width} ${offset} ${tilt}`}>
+      <TornSheet
+        seed={seed}
+        amp={10}
+        innerClassName={`${bg} ${text} px-5 pb-8 pt-7 sm:px-7 sm:pb-9 sm:pt-8`}
+      >
+        <div className={`flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b pb-3 ${rule}`}>
+          <div>
+            <p className={`font-label text-[9px] uppercase tracking-[0.18em] ${soft}`}>{company}</p>
+            <h3 className="mt-1 font-display text-[22px] leading-[0.95] tracking-[-0.025em] sm:text-[26px]">
+              {title}
+            </h3>
           </div>
+          <div className="text-right">
+            <p className={`font-label text-[10px] uppercase tracking-[0.08em] ${soft}`}>{period}</p>
+            {tag && (
+              <span
+                className={`mt-1.5 inline-block border px-1.5 py-0.5 font-label text-[8.5px] uppercase tracking-[0.12em] ${
+                  isBlue ? 'border-chalk text-chalk' : 'border-red text-red'
+                }`}
+              >
+                {tag}
+              </span>
+            )}
+          </div>
+        </div>
+
+        {note && (
+          <p className={`mt-2.5 font-label text-[9.5px] uppercase tracking-[0.1em] ${mark}`}>{note}</p>
         )}
-        <ul className="space-y-2">
-          {bullets.map((b, i) => (
-            <li key={i} className="flex items-start gap-2.5">
-              <span className="text-border shrink-0 mt-[3px] text-sm leading-none">—</span>
-              <span className="font-body text-[13px] text-ink-muted leading-snug">{b}</span>
+
+        <ul className="mt-3 grid gap-x-8 gap-y-2 md:grid-cols-2">
+          {bullets.map(b => (
+            <li key={b} className="flex items-start gap-2.5">
+              <span aria-hidden="true" className={`mt-[7px] h-px w-3 shrink-0 ${isBlue ? 'bg-chalk' : 'bg-red'}`} />
+              <span className={`text-[12.5px] leading-[1.55] ${soft}`}>{b}</span>
             </li>
           ))}
         </ul>
+      </TornSheet>
+    </div>
+  )
+}
+
+export default function Experience() {
+  const { lang, t } = useLang()
+  const s = strings.experience
+
+  return (
+    <section id="experience" className="relative bg-board pb-20 pt-14 text-ink sm:pt-16">
+      <div className="mx-auto max-w-[1400px] px-4 sm:px-6">
+        <header className="flex flex-col gap-4 border-b-2 border-ink/30 pb-4 md:flex-row md:items-end md:justify-between md:gap-10">
+          <h2
+            className="max-w-[18ch] font-display leading-[0.94] tracking-[-0.035em]"
+            style={{ fontSize: 'clamp(2rem, 4.8vw, 4rem)' }}
+          >
+            {t(s.heading)}
+          </h2>
+          <div className="md:text-right">
+            <span className="-rotate-2 inline-block border border-red px-2 py-1 font-label text-[9px] uppercase tracking-[0.12em] text-ink">
+              {t(s.concurrent)} · {t(strings.hero.balanceBDate)}
+            </span>
+          </div>
+        </header>
+
+        <div className="relative mt-9">
+          <RoleSheet
+            seed={97}
+            tone="blue"
+            company={t(s.logiaspace.company)}
+            title={t(s.logiaspace.title)}
+            period={t(s.logiaspace.period)}
+            bullets={s.logiaspace.bullets[lang]}
+            tag={t(s.remote)}
+            width="md:w-[91%]"
+            offset="md:ml-auto"
+            z="z-30"
+            tilt="md:rotate-[0.35deg]"
+          />
+
+          <RoleSheet
+            seed={103}
+            tone="chalk"
+            company={t(s.laoJunior.company)}
+            title={t(s.laoJunior.title)}
+            period={t(s.laoJunior.period)}
+            bullets={s.laoJunior.bullets[lang]}
+            note={t(s.promotion)}
+            width="md:w-[92%]"
+            offset="mt-[-12px] md:mt-[-16px]"
+            z="z-20"
+            tilt="md:-rotate-[0.3deg]"
+          />
+
+          <RoleSheet
+            seed={109}
+            tone="chalk-2"
+            company={t(s.laoIntern.company)}
+            title={t(s.laoIntern.title)}
+            period={t(s.laoIntern.period)}
+            bullets={s.laoIntern.bullets[lang]}
+            width="md:w-[82%]"
+            offset="mt-[-10px] md:mt-[-14px] md:ml-[3%]"
+            z="z-10"
+            tilt="md:rotate-[0.5deg]"
+          />
+        </div>
       </div>
-    </motion.div>
+    </section>
   )
 }

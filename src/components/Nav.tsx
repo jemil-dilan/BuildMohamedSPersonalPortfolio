@@ -1,176 +1,185 @@
-import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'motion/react'
+import { useEffect, useState } from 'react'
+import { AnimatePresence, motion } from 'motion/react'
 import { useLang } from '../context/LanguageContext'
 import { strings } from '../data/i18n'
+import TornEdge from './TornEdge'
 
-const navLinks = [
-  { key: 'work',    href: '#work' },
-  { key: 'stack',   href: '#stack' },
-  { key: 'exp',     href: '#experience' },
-  { key: 'about',   href: '#about' },
-  { key: 'contact', href: '#contact' },
+const links = [
+  { key: 'work', href: '#work', tilt: '-1.1deg' },
+  { key: 'stack', href: '#stack', tilt: '0.7deg' },
+  { key: 'exp', href: '#experience', tilt: '-0.5deg' },
+  { key: 'teaching', href: '#teaching', tilt: '0.9deg' },
+  { key: 'contact', href: '#contact', tilt: '-0.7deg' },
 ] as const
 
 export default function Nav() {
   const { lang, setLang, t } = useLang()
-  const [scrolled, setScrolled] = useState(false)
   const [active, setActive] = useState('')
-  const [menuOpen, setMenuOpen] = useState(false)
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 56)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
-  useEffect(() => {
-    const ids = navLinks.map(l => l.href.slice(1))
+    const ids = links.map(l => l.href.slice(1))
     const obs = new IntersectionObserver(
       entries => {
-        const hit = entries.find(e => e.isIntersecting)
-        if (hit) setActive(hit.target.id)
+        const visible = entries
+          .filter(e => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
+        if (visible[0]) setActive(visible[0].target.id)
       },
-      { threshold: 0.25, rootMargin: '-64px 0px -40% 0px' }
+      { threshold: [0.12, 0.35, 0.6], rootMargin: '-22% 0px -48% 0px' },
     )
-    ids.forEach(id => { const el = document.getElementById(id); if (el) obs.observe(el) })
+    ids.forEach(id => {
+      const el = document.getElementById(id)
+      if (el) obs.observe(el)
+    })
     return () => obs.disconnect()
   }, [])
 
-  const toggleLang = () => setLang(lang === 'fr' ? 'en' : 'fr')
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false)
+    }
+    document.addEventListener('keydown', onKey)
+    document.body.style.overflow = open ? 'hidden' : ''
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = ''
+    }
+  }, [open])
 
   return (
     <>
-      <motion.nav
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.38, ease: 'easeOut' }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? 'py-3 bg-paper/96 backdrop-blur-md border-b border-border'
-            : 'py-5 bg-transparent'
-        }`}
-      >
-        <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
-          {/* Logo */}
-          <a
-            href="#"
-            aria-label="Mohamed Nfonka — haut de page"
-            className="font-display text-lg font-bold tracking-tight text-ink hover:text-accent transition-colors duration-200"
-          >
-            MNJD
-          </a>
-
-          {/* Desktop links */}
-          <div className="hidden md:flex items-center gap-7">
-            {navLinks.map(link => {
-              const isActive = active === link.href.slice(1)
-              return (
-                <a
-                  key={link.key}
-                  href={link.href}
-                  className={`relative font-body text-[13px] transition-colors duration-200 py-1 ${
-                    isActive ? 'text-ink font-medium' : 'text-ink-muted hover:text-ink'
-                  }`}
-                >
-                  {t(strings.nav[link.key as keyof typeof strings.nav] as { fr: string; en: string })}
-                  {isActive && (
-                    <motion.span
-                      layoutId="nav-indicator"
-                      className="absolute -bottom-0.5 left-0 right-0 h-px bg-accent"
-                    />
-                  )}
-                </a>
-              )
-            })}
-          </div>
-
-          {/* Right controls */}
-          <div className="hidden md:flex items-center gap-3">
-            <button
-              onClick={toggleLang}
-              aria-label={t(strings.nav.langLabel)}
-              className="font-mono text-[11px] text-ink-faint hover:text-ink border border-border hover:border-ink-faint rounded-sm px-2.5 py-1 transition-colors duration-200"
-            >
-              {lang === 'fr' ? 'EN' : 'FR'}
-            </button>
+      <header className="fixed inset-x-0 top-0 z-50">
+        <div className="relative bg-board">
+          <div className="mx-auto flex h-16 max-w-[1400px] items-center gap-3 px-4 sm:px-6">
             <a
-              href="#contact"
-              className="font-body text-[13px] font-medium bg-ink text-paper px-4 py-2 rounded-sm hover:bg-accent transition-colors duration-200"
+              href="#top"
+              aria-label={t(strings.nav.home)}
+              className="flex h-9 -rotate-2 items-center bg-chalk px-2.5 font-display text-[13px] leading-none tracking-[-0.03em] text-ink shadow-[0_5px_12px_-6px_rgba(26,26,24,0.55)]"
             >
-              {t(strings.nav.cta)}
+              MNJD
             </a>
-          </div>
 
-          {/* Mobile */}
-          <div className="flex md:hidden items-center gap-3">
-            <button
-              onClick={toggleLang}
-              aria-label={t(strings.nav.langLabel)}
-              className="font-mono text-[11px] text-ink-faint border border-border rounded-sm px-2 py-1"
-            >
-              {lang === 'fr' ? 'EN' : 'FR'}
-            </button>
-            <button
-              onClick={() => setMenuOpen(v => !v)}
-              aria-label={menuOpen ? 'Fermer' : 'Menu'}
-              className="flex flex-col justify-center gap-[5px] w-7 h-7 items-center"
-            >
-              <motion.span
-                animate={menuOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
-                className="block w-5 h-[1.5px] bg-ink origin-center"
-                transition={{ duration: 0.22 }}
-              />
-              <motion.span
-                animate={menuOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
-                className="block w-5 h-[1.5px] bg-ink"
-                transition={{ duration: 0.18 }}
-              />
-              <motion.span
-                animate={menuOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
-                className="block w-5 h-[1.5px] bg-ink origin-center"
-                transition={{ duration: 0.22 }}
-              />
-            </button>
+            <nav aria-label="Sections" className="ml-2 hidden items-center gap-1.5 lg:flex">
+              {links.map(l => {
+                const on = active === l.href.slice(1)
+                return (
+                  <a
+                    key={l.key}
+                    href={l.href}
+                    aria-current={on ? 'true' : undefined}
+                    style={{ rotate: on ? '0deg' : l.tilt }}
+                    className={`border px-3 py-2 font-cond text-[12px] uppercase leading-none tracking-[0.13em] transition-[transform,background-color,color,border-color] duration-200 hover:rotate-0 ${
+                      on
+                        ? 'border-red bg-red text-chalk'
+                        : 'border-ink/15 bg-chalk/70 text-ink hover:bg-chalk'
+                    }`}
+                  >
+                    {t(strings.nav[l.key])}
+                  </a>
+                )
+              })}
+            </nav>
+
+            <div className="ml-auto flex items-center gap-2">
+              <div
+                className="flex border border-ink/20 bg-chalk/70"
+                role="group"
+                aria-label={t(strings.nav.langLabel)}
+              >
+                {(['fr', 'en'] as const).map(code => (
+                  <button
+                    key={code}
+                    type="button"
+                    onClick={() => setLang(code)}
+                    aria-pressed={lang === code}
+                    aria-label={code === 'fr' ? 'Français' : 'English'}
+                    className={`px-2 py-1.5 font-label text-[11px] uppercase leading-none transition-colors duration-150 ${
+                      lang === code ? 'bg-ink text-chalk' : 'text-ink-faint hover:text-ink'
+                    }`}
+                  >
+                    {code}
+                  </button>
+                ))}
+              </div>
+
+              <a
+                href="#contact"
+                className="hidden bg-red px-3.5 py-2.5 font-cond text-[12px] uppercase leading-none tracking-[0.12em] text-chalk transition-transform duration-200 hover:-rotate-1 sm:inline-block"
+              >
+                {t(strings.nav.cta)}
+              </a>
+
+              <button
+                type="button"
+                onClick={() => setOpen(v => !v)}
+                aria-expanded={open}
+                aria-controls="mobile-menu"
+                aria-label={open ? t(strings.nav.close) : t(strings.nav.menu)}
+                className="flex h-9 w-9 flex-col items-center justify-center gap-[5px] border border-ink/25 bg-chalk/70 lg:hidden"
+              >
+                <span
+                  className={`block h-[2px] w-4 bg-ink transition-transform duration-200 ${
+                    open ? 'translate-y-[7px] rotate-45' : ''
+                  }`}
+                />
+                <span
+                  className={`block h-[2px] w-4 bg-ink transition-opacity duration-200 ${
+                    open ? 'opacity-0' : ''
+                  }`}
+                />
+                <span
+                  className={`block h-[2px] w-4 bg-ink transition-transform duration-200 ${
+                    open ? '-translate-y-[7px] -rotate-45' : ''
+                  }`}
+                />
+              </button>
+            </div>
           </div>
+          <TornEdge color="var(--color-board)" lip={false} className="absolute inset-x-0 -bottom-5 h-5" />
         </div>
-      </motion.nav>
+      </header>
 
-      {/* Mobile fullscreen menu */}
       <AnimatePresence>
-        {menuOpen && (
+        {open && (
           <motion.div
+            id="mobile-menu"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 bg-paper flex flex-col"
+            transition={{ duration: 0.16 }}
+            className="fixed inset-0 z-40 overflow-y-auto bg-board px-5 pb-10 pt-24"
           >
-            <div className="pt-20 px-8 flex flex-col justify-between flex-1 pb-12">
-              <nav className="flex flex-col gap-1 mt-6">
-                {navLinks.map((link, i) => (
-                  <motion.a
-                    key={link.key}
-                    href={link.href}
-                    initial={{ opacity: 0, x: -16 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                    onClick={() => setMenuOpen(false)}
-                    className="font-display text-4xl font-light text-ink hover:text-accent transition-colors py-2 border-b border-border"
-                  >
-                    {t(strings.nav[link.key as keyof typeof strings.nav] as { fr: string; en: string })}
-                  </motion.a>
-                ))}
-              </nav>
-              <motion.a
-                href="#contact"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.35 }}
-                onClick={() => setMenuOpen(false)}
-                className="inline-block font-body text-sm font-medium bg-ink text-paper px-6 py-3 rounded-sm hover:bg-accent transition-colors self-start"
-              >
-                {t(strings.nav.cta)}
-              </motion.a>
+            <p className="max-w-[280px] font-cond text-[17px] uppercase leading-tight tracking-[0.08em] text-ink">
+              {t(strings.hero.role)}
+            </p>
+            <nav aria-label="Sections" className="mt-7 flex flex-col gap-2.5">
+              {links.map((l, i) => (
+                <a
+                  key={l.key}
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  style={{ rotate: i % 2 ? '0.8deg' : '-0.8deg' }}
+                  className="flex items-baseline justify-between gap-3 bg-chalk px-4 py-3 font-display text-[24px] leading-none text-ink shadow-[0_8px_18px_-14px_rgba(26,26,24,0.7)]"
+                >
+                  {t(strings.nav[l.key])}
+                  <span aria-hidden="true" className="font-label text-[12px] text-red">
+                    →
+                  </span>
+                </a>
+              ))}
+            </nav>
+            <a
+              href="#contact"
+              onClick={() => setOpen(false)}
+              className="mt-7 inline-block bg-red px-4 py-3 font-cond text-[14px] uppercase tracking-[0.14em] text-chalk"
+            >
+              {t(strings.nav.cta)}
+            </a>
+            <div className="mt-9 border-t border-ink/20 pt-4 font-label text-[10px] leading-relaxed tracking-[0.06em] text-ink-faint">
+              nfonkmohamed@gmail.com
+              <br />
+              Bonaberi, Douala
             </div>
           </motion.div>
         )}

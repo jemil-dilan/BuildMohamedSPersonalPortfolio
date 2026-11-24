@@ -1,57 +1,99 @@
-import { useRef } from 'react'
-import { motion, useInView } from 'motion/react'
 import { useLang } from '../context/LanguageContext'
 import { strings } from '../data/i18n'
+import TornEdge from './TornEdge'
+import TornSheet from './TornSheet'
 
 export default function Intro() {
   const { t } = useLang()
-  const ref = useRef<HTMLElement>(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
   const s = strings.intro
+  const f = s.facts
+
+  const facts = [
+    { k: f.since, v: f.sinceVal },
+    { k: f.stack, v: f.stackVal },
+    { k: f.current, v: f.currentVal },
+    { k: f.also, v: f.alsoVal },
+  ]
 
   return (
-    <section ref={ref} id="about" className="py-24 px-6">
-      <div className="max-w-6xl mx-auto grid md:grid-cols-[1fr_2fr] gap-16 items-start">
-        {/* Sticky heading */}
-        <div className="flex flex-col gap-3">
-          <span className="font-mono text-[10px] text-ink-faint uppercase tracking-widest">
-            {t({ fr: '// à propos', en: '// about' })}
-          </span>
-          <motion.h2
-            initial={{ opacity: 0, y: 14 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.4 }}
-            className="font-display text-3xl md:text-4xl font-semibold text-ink leading-tight sticky top-28"
-          >
-            {t(s.heading)}
-          </motion.h2>
-        </div>
+    <section id="about" className="relative bg-board pb-16 pt-12 text-ink sm:pb-20 sm:pt-16">
+      <TornEdge color="var(--color-chalk)" variant="b" className="absolute inset-x-0 top-0 h-10" />
+      <div className="relative mx-auto max-w-[1400px] px-4 sm:px-6">
+        <div className="relative">
+          <span className="tape absolute -top-3 left-[12%] z-10 h-5 w-24 -rotate-2" aria-hidden="true" />
+          <span className="tape absolute -top-2 right-[16%] z-10 h-5 w-16 rotate-1" aria-hidden="true" />
 
-        {/* Copy */}
-        <div className="flex flex-col gap-6">
-          {[s.p1, s.p2, s.p3].map((para, i) => (
-            <motion.p
-              key={i}
-              initial={{ opacity: 0, y: 10 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.1 + i * 0.1, duration: 0.35 }}
-              className="font-body text-[15px] text-ink-muted leading-[1.8]"
-            >
-              {t(para)}
-            </motion.p>
-          ))}
-
-          {/* Pull quote */}
-          <motion.blockquote
-            initial={{ opacity: 0, y: 10 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.44, duration: 0.35 }}
-            className="border-l-2 border-accent pl-5 py-1 my-2"
+          <TornSheet
+            seed={21}
+            amp={12}
+            innerClassName="bg-chalk px-5 pb-9 pt-7 sm:px-9 sm:pb-10 sm:pt-9"
           >
-            <p className="font-display text-lg md:text-xl text-ink font-light italic leading-snug">
-              "{t(s.p4)}"
-            </p>
-          </motion.blockquote>
+            <div className="border-b-2 border-ink/25 pb-4">
+              <h2
+                className="max-w-[19ch] font-display leading-[0.94] tracking-[-0.035em]"
+                style={{ fontSize: 'clamp(2rem, 4.6vw, 3.9rem)' }}
+              >
+                {t(s.heading)}
+              </h2>
+            </div>
+
+            <div className="mt-7 grid gap-8 md:grid-cols-[0.92fr_1.08fr] md:gap-12">
+              <div>
+                <TornSheet
+                  seed={19}
+                  amp={8}
+                  className="-rotate-1"
+                  innerClassName="bg-red px-5 pb-8 pt-5 text-chalk sm:px-6 sm:pb-9 sm:pt-6"
+                >
+                  <figure>
+                    <blockquote className="font-cond text-[19px] leading-[1.3] tracking-[0.01em] sm:text-[22px]">
+                      {t(s.pullQuote)}
+                    </blockquote>
+                    <figcaption className="mt-4 border-t border-chalk/35 pt-2 font-label text-[9px] uppercase tracking-[0.18em] text-chalk">
+                      MNJD · Douala
+                    </figcaption>
+                  </figure>
+                </TornSheet>
+
+                <p className="mt-5 max-w-[36ch] font-label text-[10px] uppercase leading-[1.8] tracking-[0.08em] text-ink-faint">
+                  {t({
+                    fr: 'Le diplôme avance en même temps que le travail. Le travail nourrit le diplôme.',
+                    en: 'The degree moves at the same time as the work. The work feeds the degree.',
+                  })}
+                </p>
+              </div>
+
+              <div className="space-y-4 text-[14.5px] leading-[1.72] text-ink-soft sm:text-[15px]">
+                <p className="first-letter:float-left first-letter:mr-2 first-letter:font-display first-letter:text-[50px] first-letter:leading-[0.72] first-letter:text-red">
+                  {t(s.p1)}
+                </p>
+                <p>{t(s.p2)}</p>
+                <p>{t(s.p3)}</p>
+                <p>{t(s.p4)}</p>
+              </div>
+            </div>
+
+            <div className="mt-9 border-t border-ink/20 pt-4">
+              <p className="font-label text-[9.5px] uppercase tracking-[0.2em] text-ink-faint">
+                {t(s.factsKicker)}
+              </p>
+              <dl className="mt-3 grid gap-px border-t border-ink/15 sm:grid-cols-2 lg:grid-cols-4">
+                {facts.map((item, i) => (
+                  <div
+                    key={t(item.k)}
+                    className={`py-3 lg:px-4 ${
+                      i > 0 ? 'border-t border-ink/15 lg:border-t-0 lg:border-l' : ''
+                    } ${i === 0 ? 'lg:pl-0' : ''}`}
+                  >
+                    <dt className="font-label text-[9px] uppercase leading-relaxed tracking-[0.14em] text-ink-faint">
+                      {t(item.k)}
+                    </dt>
+                    <dd className="mt-1.5 font-cond text-[16px] leading-[1.15] text-ink">{t(item.v)}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </TornSheet>
         </div>
       </div>
     </section>

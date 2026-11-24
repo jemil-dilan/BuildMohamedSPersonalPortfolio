@@ -1,0 +1,239 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-24T00:00:00.000Z",
+  "title": "Design System: Mohamed Nfonka — Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "board": {
+        "role": "neutral",
+        "displayName": "Hoarding Board",
+        "canonical": "#c9c2b2",
+        "tonalRamp": ["#dad4c7", "#c9c2b2", "#b3ab99", "#9a9181", "#7e7768"]
+      },
+      "board-deep": {
+        "role": "neutral",
+        "displayName": "Board Shadow",
+        "canonical": "#b3ab99",
+        "tonalRamp": ["#c9c2b2", "#b3ab99", "#9a9181"]
+      },
+      "board-dark": {
+        "role": "neutral",
+        "displayName": "Board Edge",
+        "canonical": "#9a9181",
+        "tonalRamp": ["#b3ab99", "#9a9181", "#7e7768"]
+      },
+      "chalk": {
+        "role": "neutral",
+        "displayName": "Chalk Paper",
+        "canonical": "#ede7d8",
+        "tonalRamp": ["#f6f2e8", "#ede7d8", "#e0d8c7", "#cfc5af"]
+      },
+      "chalk-2": {
+        "role": "neutral",
+        "displayName": "Second Paper",
+        "canonical": "#e0d8c7",
+        "tonalRamp": ["#ede7d8", "#e0d8c7", "#cfc5af"]
+      },
+      "ink": {
+        "role": "primary",
+        "displayName": "Press Ink",
+        "canonical": "#1a1a18",
+        "tonalRamp": ["#3a362e", "#2a2823", "#1a1a18", "#0f0f0e"]
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Reading Ink",
+        "canonical": "#3a362e",
+        "tonalRamp": ["#4e4a3e", "#3a362e", "#2a2823"]
+      },
+      "ink-faint": {
+        "role": "neutral",
+        "displayName": "Stamped Ink",
+        "canonical": "#4e4a3e",
+        "tonalRamp": ["#5f5b4d", "#4e4a3e", "#3a362e"]
+      },
+      "red": {
+        "role": "primary",
+        "displayName": "Press Red",
+        "canonical": "#b02e20",
+        "tonalRamp": ["#c94636", "#b02e20", "#8e2418", "#6d1b12"]
+      },
+      "red-deep": {
+        "role": "primary",
+        "displayName": "Press Red Deep",
+        "canonical": "#8e2418",
+        "tonalRamp": ["#b02e20", "#8e2418", "#6d1b12"]
+      },
+      "blue": {
+        "role": "secondary",
+        "displayName": "Hoarding Blue",
+        "canonical": "#2c4c6b",
+        "tonalRamp": ["#3c6285", "#2c4c6b", "#203a53", "#172b3d"]
+      },
+      "blue-deep": {
+        "role": "secondary",
+        "displayName": "Hoarding Blue Deep",
+        "canonical": "#203a53",
+        "tonalRamp": ["#2c4c6b", "#203a53", "#172b3d"]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Section statements and the name. Sentence case, always with a full stop."
+      },
+      "condensed": {
+        "displayName": "Condensed",
+        "purpose": "Role lines, poster titles inside sheets, pull quotes."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Reading paragraphs at 14.5–15px, 58–64ch measure."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Stamps, sheet headers, metadata, legend. Never below 8.5px."
+      }
+    },
+    "shadows": [
+      {
+        "name": "sheet-lift",
+        "value": "drop-shadow(0 10px 0 rgba(26,26,24,0.08)) drop-shadow(0 24px 30px rgba(26,26,24,0.2))",
+        "purpose": "Every pasted sheet. Follows the torn contour instead of a rounded box."
+      },
+      {
+        "name": "slip-contact",
+        "value": "0 14px 24px -18px rgba(26,26,24,0.8)",
+        "purpose": "Small chalk slips and nav tabs: tight contact shadow only."
+      }
+    ],
+    "motion": [
+      {
+        "name": "settle",
+        "value": "900ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Hero overprint sliding from 9px to 5px off-register, once, then still."
+      },
+      {
+        "name": "paper",
+        "value": "200ms cubic-bezier(0.2, 0.9, 0.1, 1)",
+        "purpose": "Sticker snap, button lift, link rule thickening."
+      },
+      {
+        "name": "fold",
+        "value": "180ms cubic-bezier(0.2, 0.9, 0.1, 1)",
+        "purpose": "Project sheet corner lift and panel reveal."
+      },
+      {
+        "name": "menu",
+        "value": "160ms ease",
+        "purpose": "Mobile menu fade only; the board itself does not slide."
+      }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Chalk slip on red or board. Square, condensed uppercase, lifts 2px on hover.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">Écrire un e-mail →</a>",
+      "css": ".ds-btn-primary { display: inline-block; background: #ede7d8; color: #1a1a18; font-family: 'Archivo Narrow', 'Arial Narrow', sans-serif; font-size: 15px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.14em; line-height: 1; padding: 12px 20px; border: 0; border-radius: 0; text-decoration: none; transition: transform 200ms cubic-bezier(0.2,0.9,0.1,1); } .ds-btn-primary:hover { transform: translateY(-2px); } .ds-btn-primary:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Outlined on red or blue. Inverts to chalk fill on hover.",
+      "html": "<a class=\"ds-btn-ghost\" href=\"#\">Me contacter</a>",
+      "css": ".ds-btn-ghost { display: inline-block; background: transparent; color: #ede7d8; font-family: 'Archivo Narrow', 'Arial Narrow', sans-serif; font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.14em; line-height: 1; padding: 10px 16px; border: 1px solid rgba(237,231,216,0.7); border-radius: 0; text-decoration: none; transition: background-color 150ms ease, color 150ms ease, transform 200ms cubic-bezier(0.2,0.9,0.1,1); } .ds-btn-ghost:hover { background: #ede7d8; color: #1a1a18; } .ds-btn-ghost:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }"
+    },
+    {
+      "name": "Nav Tab",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "A pasted tab with its own rotation. The current section snaps straight and turns red.",
+      "html": "<div class=\"ds-nav\"><a class=\"ds-nav-tab\" href=\"#work\" style=\"--rot:-1.1deg\">Travaux</a><a class=\"ds-nav-tab is-active\" href=\"#stack\">Stack</a></div>",
+      "css": ".ds-nav { display: flex; gap: 6px; background: #c9c2b2; padding: 12px; } .ds-nav-tab { display: inline-block; background: rgba(237,231,216,0.7); color: #1a1a18; border: 1px solid rgba(26,26,24,0.15); border-radius: 0; padding: 8px 12px; font-family: 'Archivo Narrow', 'Arial Narrow', sans-serif; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.13em; line-height: 1; text-decoration: none; transform: rotate(var(--rot, 0deg)); transition: transform 200ms cubic-bezier(0.2,0.9,0.1,1), background-color 150ms ease, color 150ms ease; } .ds-nav-tab:hover { transform: rotate(0deg); background: #ede7d8; } .ds-nav-tab.is-active { background: #b02e20; color: #ede7d8; border-color: #b02e20; transform: rotate(0deg); } .ds-nav-tab:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }"
+    },
+    {
+      "name": "Status Chip",
+      "kind": "chip",
+      "refersTo": "nav-link-active",
+      "description": "A stamped 1px rectangle, slightly rotated. Never a pill, never filled.",
+      "html": "<span class=\"ds-chip\">En ligne</span>",
+      "css": ".ds-chip { display: inline-block; background: transparent; color: #b02e20; border: 1px solid #b02e20; border-radius: 0; padding: 4px 6px; font-family: 'Courier Prime', ui-monospace, monospace; font-size: 8.5px; line-height: 1.4; text-transform: uppercase; letter-spacing: 0.12em; transform: rotate(-2deg); }"
+    },
+    {
+      "name": "Pasted Sheet",
+      "kind": "card",
+      "refersTo": "sheet",
+      "description": "Chalk paper with a straight top and a hand-torn bottom. Depth is a soft shadow that follows the tear.",
+      "html": "<div class=\"ds-sheet\"><p class=\"ds-sheet-label\">Expoprepa</p><h3 class=\"ds-sheet-title\">Rendre abordable la préparation aux certifications.</h3><p class=\"ds-sheet-body\">Le TCF, le TEF et l'IELTS sont les examens d'entrée pour les étudiants francophones.</p></div>",
+      "css": ".ds-sheet { position: relative; background: #ede7d8; color: #1a1a18; padding: 20px 20px 36px; border-radius: 0; clip-path: polygon(0 0, 100% 0, 100% calc(100% - 9px), 78% calc(100% - 14px), 55% calc(100% - 7px), 31% calc(100% - 13px), 12% calc(100% - 6px), 0 calc(100% - 10px)); filter: drop-shadow(0 10px 0 rgba(26,26,24,0.08)) drop-shadow(0 24px 30px rgba(26,26,24,0.2)); } .ds-sheet-label { margin: 0; font-family: 'Courier Prime', ui-monospace, monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.18em; color: #4e4a3e; } .ds-sheet-title { margin: 10px 0 0; font-family: 'Archivo Black', 'Arial Black', sans-serif; font-size: 26px; line-height: 0.98; letter-spacing: -0.03em; } .ds-sheet-body { margin: 12px 0 0; font-family: 'Public Sans', system-ui, sans-serif; font-size: 14px; line-height: 1.6; color: #3a362e; }"
+    },
+    {
+      "name": "Stack Sticker",
+      "kind": "chip",
+      "refersTo": "sticker-daily",
+      "description": "A tool on the wall. Ink for daily use, board with an ink border for working knowledge. Snaps straight on hover.",
+      "html": "<span class=\"ds-sticker\" style=\"--rot:-1.4deg\">Spring Boot</span><span class=\"ds-sticker is-known\" style=\"--rot:1deg\">Kafka</span>",
+      "css": ".ds-sticker { display: inline-block; background: #1a1a18; color: #ede7d8; border: 1px solid #1a1a18; border-radius: 0; padding: 5px 8px; font-family: 'Archivo Narrow', 'Arial Narrow', sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; line-height: 1; transform: rotate(var(--rot, 0deg)); transition: transform 180ms cubic-bezier(0.2,0.9,0.1,1), background-color 150ms ease, color 150ms ease; cursor: pointer; } .ds-sticker:hover, .ds-sticker:focus-visible { transform: rotate(0deg) translateY(-3px); } .ds-sticker.is-known { background: #c9c2b2; color: #1a1a18; border-color: #1a1a18; } .ds-sticker:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }"
+    },
+    {
+      "name": "Pencil Rule Link",
+      "kind": "custom",
+      "description": "An inline link underlined by a 1px rule that thickens to 2px on hover instead of changing colour.",
+      "html": "<a class=\"ds-rule-link\" href=\"#\">github.com/jemil-dilan</a>",
+      "css": ".ds-rule-link { color: #1a1a18; text-decoration: none; background-image: linear-gradient(currentColor, currentColor); background-repeat: no-repeat; background-position: 0 100%; background-size: 100% 1px; transition: background-size 200ms cubic-bezier(0.2,0.9,0.1,1); } .ds-rule-link:hover, .ds-rule-link:focus-visible { background-size: 100% 2px; } .ds-rule-link:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Torn Hoarding",
+    "overview": "A hoarding on a Douala street: posters pasted over older posters, edges torn back by hand, tape still on them. Nothing is framed; everything is stuck to a wall of warm grey board, with chalk paper, near-black ink and two printing inks — red and deep blue.\n\nDepth means history, not elevation. A newer sheet sits on top of an older one and hides part of it, so the reader feels the earlier versions underneath. That is the argument of the page: a career is layered, and the person you hire is the top sheet.\n\nThe voice is first person and short. Facts sit in Courier Prime like a stamped record, statements in Archivo Black like a headline pasted up by hand, and reading text stays quiet in Public Sans so the posters can be loud.",
+    "keyCharacteristics": [
+      "Pasted sheets with hand-torn bottom edges, never rounded cards",
+      "Four typefaces in fixed roles: display, condensed facts, stamped labels, reading text",
+      "Flat colour fields that change abruptly at a torn seam",
+      "Red and blue used as poster ink, not as UI accent",
+      "Motion only where paper would move"
+    ],
+    "rules": [
+      {
+        "name": "The Ink-On-Board Rule",
+        "body": "Red and blue never carry small text on board. On board, small text is ink or ink-faint; red is a rule, a stamp border, or a fill large enough to hold chalk.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two-Ink Rule",
+        "body": "Red and blue never share a field. A section is board, chalk, red, blue or ink — one ground, one ink.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Voice Rule",
+        "body": "A heading is a statement, not a category. No eyebrow or kicker above a heading; the label sits under the thing it names.",
+        "section": "typography"
+      }
+    ],
+    "dos": [
+      "Do tear the bottom edge of a sheet and leave the top edge straight.",
+      "Do put small text on board in ink or ink-faint, and reserve red for fills, rules and stamps.",
+      "Do keep technical terms in English in both languages.",
+      "Do let one sheet overlap the next, and pad the sheet underneath so no label is covered.",
+      "Do keep the tear deterministic with a fixed seed per sheet."
+    ],
+    "donts": [
+      "Don't round a corner, add a pill, or nest a card inside a sheet.",
+      "Don't put a kicker above a heading, number a section, or add a divider rule between fields.",
+      "Don't use red or blue small text on board, and don't put ink text on red.",
+      "Don't animate section entrances; motion belongs to paper only.",
+      "Don't use gradient text, coloured border-left callouts, hard offset shadows, or glows.",
+      "Don't invent a metric, a percentage, a duration or a logo to fill space."
+    ]
+  }
+}
