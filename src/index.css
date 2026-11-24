@@ -1,93 +1,154 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo+Narrow:wght@400;500;600;700&family=Courier+Prime:wght@400;700&family=Public+Sans:wght@400;500;600&display=swap');
 @import 'tailwindcss';
 
 @theme inline {
-  --font-display: 'Fraunces', Georgia, serif;
-  --font-body: 'Inter', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-display: 'Archivo Black', 'Arial Black', sans-serif;
+  --font-cond: 'Archivo Narrow', 'Arial Narrow', sans-serif;
+  --font-label: 'Courier Prime', ui-monospace, monospace;
+  --font-body: 'Public Sans', system-ui, sans-serif;
 
-  --color-paper: #FAF9F6;
-  --color-ink: #18170F;
-  --color-ink-muted: #5C5850;
-  --color-ink-faint: #9B958E;
-  --color-surface: #F2EFE9;
-  --color-surface-2: #EAE6DD;
-  --color-border: #D8D3C8;
-  --color-border-light: #E8E4DC;
-  --color-accent: #2A5744;
-  --color-accent-light: #E9F2EE;
-  --color-accent-muted: #3D7A5F;
+  --color-board: #c9c2b2;
+  --color-board-deep: #b3ab99;
+  --color-board-dark: #9a9181;
+  --color-chalk: #ede7d8;
+  --color-chalk-2: #e0d8c7;
+  --color-ink: #1a1a18;
+  --color-ink-soft: #3a362e;
+  --color-ink-faint: #4e4a3e;
+  --color-red: #b02e20;
+  --color-red-deep: #8e2418;
+  --color-blue: #2c4c6b;
+  --color-blue-deep: #203a53;
 }
 
 html {
   scroll-behavior: smooth;
   color-scheme: light;
+  -webkit-text-size-adjust: 100%;
 }
 
 html,
 body,
 #root {
-  height: 100%;
-}
-
-* {
-  scrollbar-width: thin;
-  scrollbar-color: transparent transparent;
-}
-
-*:hover {
-  scrollbar-color: #D8D3C8 transparent;
-}
-
-::selection {
-  background: #C5DDD5;
-  color: #18170F;
+  min-height: 100%;
 }
 
 body {
-  background-color: #FAF9F6;
-  color: #18170F;
-  font-family: 'Inter', system-ui, sans-serif;
+  background-color: #c9c2b2;
+  color: #1a1a18;
+  font-family: 'Public Sans', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
-/* Paper grain overlay */
+/* Press grain across the whole wall */
 body::after {
   content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 9999;
-  opacity: 0.018;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-size: 200px 200px;
+  z-index: 90;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 220px 220px;
 }
 
-.font-display {
-  font-family: 'Fraunces', Georgia, serif;
+::selection {
+  background: #b02e20;
+  color: #ede7d8;
 }
 
-.font-mono {
-  font-family: 'JetBrains Mono', monospace;
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
 }
 
-/* Animated underline for links */
-.link-hover {
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #9a9181 transparent;
+}
+
+/* Halftone dot field for poster grounds */
+.halftone {
+  background-image: radial-gradient(currentColor 1px, transparent 1.15px);
+  background-size: 5px 5px;
+}
+
+/* A pasted sheet: shadow follows the torn contour */
+.torn-sheet {
+  filter: drop-shadow(0 10px 0 rgba(26, 26, 24, 0.08))
+    drop-shadow(0 24px 30px rgba(26, 26, 24, 0.2));
+}
+
+.tape {
+  background: rgba(232, 222, 192, 0.74);
+  box-shadow: inset 0 0 0 1px rgba(26, 26, 24, 0.06);
+}
+
+/* A sticker on the stack wall */
+.sticker {
+  --rot: 0deg;
+  transform: rotate(var(--rot));
+  transition:
+    transform 180ms cubic-bezier(0.2, 0.9, 0.1, 1),
+    background-color 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease;
+}
+
+.sticker:hover,
+.sticker:focus-visible {
+  transform: rotate(0deg) translateY(-3px);
+  z-index: 2;
+}
+
+/* Folded corner on a project sheet */
+.flap {
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(26, 26, 24, 0.22),
+    rgba(26, 26, 24, 0.05) 52%,
+    transparent 53%
+  );
+}
+
+/* Pencil rule under a link */
+.rule-link {
   background-image: linear-gradient(currentColor, currentColor);
-  background-position: 0% 100%;
   background-repeat: no-repeat;
-  background-size: 0% 1px;
-  transition: background-size 0.25s ease;
-}
-.link-hover:hover {
+  background-position: 0 100%;
   background-size: 100% 1px;
+  transition: background-size 200ms cubic-bezier(0.2, 0.9, 0.1, 1);
+}
+.rule-link:hover,
+.rule-link:focus-visible {
+  background-size: 100% 2px;
+}
+
+/* The hero's overprint settles into register once, then stays put */
+@keyframes settle {
+  from {
+    transform: translate(9px, 9px);
+  }
+  to {
+    transform: translate(5px, 5px);
+  }
+}
+
+.overprint {
+  animation: settle 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
+  html {
+    scroll-behavior: auto;
+  }
+  .overprint {
+    animation: none;
+    transform: translate(5px, 5px);
+  }
   *,
   ::before,
   ::after {

@@ -1,80 +1,73 @@
-import { useRef } from 'react'
-import { motion, useInView } from 'motion/react'
 import { useLang } from '../context/LanguageContext'
 import { strings } from '../data/i18n'
+import TornEdge from './TornEdge'
+import TornSheet from './TornSheet'
 
 const topicKeys = ['cleanCode', 'git', 'docker', 'agile'] as const
-
-const topicIcons: Record<string, string> = {
-  cleanCode: '§',
-  git:       '⎇',
-  docker:    '⬡',
-  agile:     '↻',
-}
+const tilts = ['-1.2deg', '0.9deg', '0.6deg', '-0.8deg']
 
 export default function Teaching() {
   const { t } = useLang()
-  const ref = useRef<HTMLElement>(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
   const s = strings.teaching
 
   return (
-    <section ref={ref} className="py-24 px-6 border-t border-border">
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="grid md:grid-cols-[1fr_2fr] gap-16 items-start mb-14">
-          <div>
-            <span className="font-mono text-[10px] text-ink-faint uppercase tracking-widest">
-              {t({ fr: '// enseignement', en: '// teaching' })}
-            </span>
-            <motion.h2
-              initial={{ opacity: 0, y: 14 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.4 }}
-              className="font-display text-3xl md:text-4xl font-semibold text-ink leading-tight mt-2"
-            >
-              {t(s.heading)}
-            </motion.h2>
-          </div>
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.12, duration: 0.35 }}
-            className="font-body text-[15px] text-ink-muted leading-relaxed pt-10"
-          >
-            {t(s.body)}
-          </motion.p>
-        </div>
+    <section id="teaching" className="relative overflow-hidden bg-blue pb-20 pt-14 text-chalk sm:pt-16">
+      <TornEdge color="var(--color-board)" variant="a" className="absolute inset-x-0 top-0 h-10" />
+      <div
+        aria-hidden="true"
+        className="halftone pointer-events-none absolute inset-0 text-chalk opacity-[0.06]"
+      />
 
-        {/* Topic cards — 4 in a row */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="relative mx-auto max-w-[1400px] px-4 sm:px-6">
+        <header className="grid gap-5 border-b border-chalk/35 pb-4 md:grid-cols-[1.15fr_0.85fr] md:items-end md:gap-14">
+          <h2
+            className="max-w-[21ch] font-display leading-[0.94] tracking-[-0.035em]"
+            style={{ fontSize: 'clamp(2rem, 4.6vw, 3.8rem)' }}
+          >
+            {t(s.heading)}
+          </h2>
+          <p className="max-w-[46ch] text-[13.5px] leading-[1.7] text-chalk md:pb-1.5">
+            {t(s.body)}
+          </p>
+        </header>
+
+        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
           {topicKeys.map((key, i) => (
-            <motion.div
+            <div
               key={key}
-              initial={{ opacity: 0, y: 16 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.2 + i * 0.08, duration: 0.35 }}
-              className="border border-border rounded-lg p-5 bg-paper hover:bg-surface hover:border-ink-faint transition-all duration-200 group"
+              className={`relative ${i % 2 === 1 ? 'lg:mt-6' : ''}`}
+              style={{ rotate: tilts[i] }}
             >
-              {/* Symbolic icon */}
-              <div
-                className="font-mono text-2xl text-border group-hover:text-ink-faint transition-colors mb-3 leading-none select-none"
+              <span
                 aria-hidden="true"
+                className="tape absolute -top-2.5 left-1/2 z-10 h-4 w-14 -translate-x-1/2 -rotate-2"
+              />
+              <TornSheet
+                seed={127 + i * 7}
+                amp={9}
+                innerClassName="bg-chalk px-4 pb-8 pt-4 text-ink sm:px-5"
               >
-                {topicIcons[key]}
-              </div>
-              <div className="font-mono text-sm font-medium text-ink">
-                {t(s.topics[key])}
-              </div>
-              <div className="font-body text-[11px] text-ink-faint mt-1 leading-snug">
-                {t({
-                  cleanCode: { fr: 'Présentation interne, Lao Sarl', en: 'Internal talk, Lao Sarl' },
-                  git:       { fr: 'Présentation interne, Lao Sarl', en: 'Internal talk, Lao Sarl' },
-                  docker:    { fr: 'Présentation interne, Lao Sarl', en: 'Internal talk, Lao Sarl' },
-                  agile:     { fr: 'Présentation interne, Lao Sarl', en: 'Internal talk, Lao Sarl' },
-                }[key])}
-              </div>
-            </motion.div>
+                <div className="flex items-baseline justify-between gap-2 border-b border-ink/20 pb-2">
+                  <span className="font-label text-[9px] uppercase tracking-[0.16em] text-ink-faint">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <span className="h-2.5 w-2.5 bg-red" aria-hidden="true" />
+                </div>
+
+                <h3
+                  className="mt-5 font-display leading-[0.9] tracking-[-0.03em]"
+                  style={{ fontSize: 'clamp(1.7rem, 3.4vw, 2.5rem)' }}
+                >
+                  {t(s.topics[key])}
+                </h3>
+
+                <div className="-mx-4 mt-6 bg-red px-4 py-2 sm:-mx-5 sm:px-5">
+                  <p className="font-label text-[8.5px] uppercase leading-[1.5] tracking-[0.1em] text-chalk">
+                    {t(s.sessionLabel)}
+                  </p>
+                </div>
+              </TornSheet>
+            </div>
           ))}
         </div>
       </div>

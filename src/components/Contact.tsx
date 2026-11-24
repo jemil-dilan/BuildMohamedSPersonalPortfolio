@@ -1,57 +1,46 @@
-import { useRef } from 'react'
-import { motion, useInView } from 'motion/react'
 import { useLang } from '../context/LanguageContext'
 import { strings } from '../data/i18n'
+import TornEdge from './TornEdge'
+import TornSheet from './TornSheet'
 
-function buildEmail() {
-  return ['nfonkmohamed', '@', 'gmail', '.', 'com'].join('')
-}
+const EMAIL = ['nfonkmohamed', '@', 'gmail', '.', 'com'].join('')
+const LINKEDIN =
+  'https://www.linkedin.com/in/njoupouandom-nfonka-mohamed-jemil-dilan-a5204a3a2'
 
 export default function Contact() {
-  const { lang, t } = useLang()
-  const ref = useRef<HTMLElement>(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
+  const { t } = useLang()
   const s = strings.contact
 
   const rows = [
     {
-      label: t(s.email),
-      content: (
-        <button
-          onClick={() => { window.location.href = 'mailto:' + buildEmail() }}
-          className="font-body text-[13px] text-ink hover:text-accent transition-colors text-left link-hover"
-        >
-          nfonkmohamed&#64;gmail&#46;com
-        </button>
-      ),
-    },
-    {
       label: t(s.phone),
-      content: (
-        <a href="tel:+237671018302" className="font-body text-[13px] text-ink hover:text-accent transition-colors">
+      value: (
+        <a href="tel:+237671018302" className="rule-link text-ink">
           +237 671 01 83 02
         </a>
       ),
     },
     {
-      label: 'LinkedIn',
-      content: (
+      label: t(s.linkedin),
+      value: (
         <a
-          href="https://www.linkedin.com/in/njoupouandom-nfonka-mohamed-jemil-dilan-a5204a3a2"
-          target="_blank" rel="noopener noreferrer"
-          className="font-body text-[13px] text-ink hover:text-accent transition-colors break-all link-hover"
+          href={LINKEDIN}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rule-link break-all text-ink"
         >
           linkedin.com/in/njoupouandom-nfonka-…
         </a>
       ),
     },
     {
-      label: 'GitHub',
-      content: (
+      label: t(s.github),
+      value: (
         <a
           href="https://github.com/jemil-dilan"
-          target="_blank" rel="noopener noreferrer"
-          className="font-body text-[13px] text-ink hover:text-accent transition-colors link-hover"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rule-link text-ink"
         >
           github.com/jemil-dilan
         </a>
@@ -59,74 +48,81 @@ export default function Contact() {
     },
     {
       label: t(s.location),
-      content: <span className="font-body text-[13px] text-ink">{t(s.locationVal)}</span>,
+      value: <span className="text-ink">{t(s.locationVal)}</span>,
     },
   ]
 
   return (
-    <section ref={ref} id="contact" className="py-24 px-6 border-t border-border">
-      <div className="max-w-6xl mx-auto grid md:grid-cols-[1fr_2fr] gap-16 items-start">
+    <section id="contact" className="relative overflow-hidden bg-red pb-16 pt-14 text-chalk sm:pb-20 sm:pt-16">
+      <TornEdge color="var(--color-board)" variant="b" className="absolute inset-x-0 top-0 h-10" />
+      <div
+        aria-hidden="true"
+        className="halftone pointer-events-none absolute inset-0 text-chalk opacity-[0.06]"
+      />
+
+      <div className="relative mx-auto grid max-w-[1400px] gap-10 px-4 sm:px-6 md:grid-cols-[1.05fr_0.95fr] md:items-start md:gap-14">
         <div>
-          <span className="font-mono text-[10px] text-ink-faint uppercase tracking-widest">
-            {t({ fr: '// contact', en: '// contact' })}
-          </span>
-          <motion.h2
-            initial={{ opacity: 0, y: 14 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.4 }}
-            className="font-display text-3xl md:text-4xl font-semibold text-ink leading-tight mt-2"
+          <h2
+            className="max-w-[15ch] font-display leading-[0.9] tracking-[-0.04em]"
+            style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)' }}
           >
             {t(s.heading)}
-          </motion.h2>
+          </h2>
+
+          <p className="mt-6 max-w-[46ch] text-[14.5px] leading-[1.7] text-chalk">{t(s.body)}</p>
+
+          <a
+            href={`mailto:${EMAIL}`}
+            className="mt-7 inline-block bg-chalk px-5 py-3 font-cond text-[15px] uppercase leading-none tracking-[0.14em] text-ink transition-transform duration-200 hover:-translate-y-0.5"
+          >
+            {t(s.cta)}
+          </a>
+
+          <p className="mt-3 font-label text-[10.5px] tracking-[0.06em] text-chalk">{EMAIL}</p>
+
+          <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-chalk/35 pt-3">
+            <span aria-hidden="true" className="h-2 w-2 rounded-full bg-chalk" />
+            <span className="font-label text-[9px] uppercase tracking-[0.14em] text-chalk">
+              {t(strings.hero.status)}
+            </span>
+            <span className="font-label text-[9px] uppercase tracking-[0.1em] text-chalk">
+              · {t(strings.footer.languages)}
+            </span>
+          </div>
         </div>
 
-        <div className="flex flex-col gap-8">
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.1, duration: 0.35 }}
-            className="font-body text-[15px] text-ink-muted leading-relaxed"
+        <div className="relative">
+          <span
+            aria-hidden="true"
+            className="tape absolute -top-2.5 left-1/2 z-10 h-4 w-20 -translate-x-1/2 -rotate-1"
+          />
+          <TornSheet
+            seed={173}
+            amp={11}
+            innerClassName="bg-chalk px-5 pb-8 pt-5 text-ink sm:px-6 sm:pb-9 sm:pt-6"
           >
-            {t(s.body)}
-          </motion.p>
+            <p className="font-label text-[9px] uppercase tracking-[0.18em] text-ink-faint">
+              {t({ fr: 'Coordonnées', en: 'Details' })}
+            </p>
 
-          {/* Contact rows */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.18, duration: 0.35 }}
-            className="rounded-lg border border-border overflow-hidden"
-          >
-            {rows.map(({ label, content }, i) => (
-              <div
-                key={label}
-                className={`flex items-center gap-6 px-5 py-4 ${i < rows.length - 1 ? 'border-b border-border' : ''} hover:bg-surface transition-colors duration-150`}
-              >
-                <span className="font-mono text-[10px] text-ink-faint uppercase tracking-wider w-20 shrink-0">
-                  {label}
-                </span>
-                {content}
-              </div>
-            ))}
-          </motion.div>
+            <dl className="mt-3 divide-y divide-ink/15 border-t border-ink/20">
+              {rows.map(row => (
+                <div
+                  key={row.label}
+                  className="flex flex-col gap-0.5 py-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-5"
+                >
+                  <dt className="shrink-0 font-label text-[9px] uppercase tracking-[0.14em] text-ink-faint">
+                    {row.label}
+                  </dt>
+                  <dd className="break-all text-[13px] leading-[1.5] sm:text-right">{row.value}</dd>
+                </div>
+              ))}
+            </dl>
 
-          {/* CV download */}
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.3, duration: 0.35 }}
-          >
-            <a
-              href={lang === 'fr' ? '/cv-fr.pdf' : '/cv-en.pdf'}
-              download
-              className="inline-flex items-center gap-2.5 font-body text-sm font-medium border border-ink text-ink px-5 py-2.5 rounded-sm hover:bg-ink hover:text-paper transition-all duration-200"
-            >
-              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
-                <path d="M6.5 1v8M3.5 6l3 3 3-3M1.5 11h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              {t(s.downloadCV)}
-            </a>
-          </motion.div>
+            <p className="mt-4 border-t border-ink/20 pt-3 font-label text-[9px] uppercase leading-[1.7] tracking-[0.08em] text-ink-faint">
+              {t(s.cvNote)}
+            </p>
+          </TornSheet>
         </div>
       </div>
     </section>

@@ -1,85 +1,77 @@
-import { useRef } from 'react'
-import { motion, useInView } from 'motion/react'
 import { useLang } from '../context/LanguageContext'
 import { strings } from '../data/i18n'
+import TornEdge from './TornEdge'
+import TornSheet from './TornSheet'
 
 export default function Education() {
   const { t } = useLang()
-  const ref = useRef<HTMLElement>(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
   const s = strings.education
 
   return (
-    <section ref={ref} className="py-24 px-6 bg-surface border-t border-border">
-      <div className="max-w-6xl mx-auto grid md:grid-cols-[1fr_2fr] gap-16 items-start">
-        <div>
-          <span className="font-mono text-[10px] text-ink-faint uppercase tracking-widest">
-            {t({ fr: '// formation', en: '// education' })}
-          </span>
-          <motion.h2
-            initial={{ opacity: 0, y: 14 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.4 }}
-            className="font-display text-3xl md:text-4xl font-semibold text-ink leading-tight mt-2 sticky top-28"
+    <section id="education" className="relative bg-board pb-20 pt-14 text-ink sm:pt-16">
+      <TornEdge color="var(--color-blue)" variant="c" className="absolute inset-x-0 top-0 h-10" />
+
+      <div className="relative mx-auto max-w-[1400px] px-4 sm:px-6">
+        <header className="flex flex-wrap items-end justify-between gap-4 border-b-2 border-ink/30 pb-4">
+          <h2
+            className="font-display leading-[0.94] tracking-[-0.035em]"
+            style={{ fontSize: 'clamp(2rem, 4.8vw, 4rem)' }}
           >
             {t(s.heading)}
-          </motion.h2>
-        </div>
+          </h2>
+          <span className="-rotate-1 border border-ink/40 px-2.5 py-1.5 font-label text-[9px] uppercase tracking-[0.12em] text-ink">
+            {t(s.languages)}
+          </span>
+        </header>
 
-        <div className="flex flex-col gap-6">
-          {/* University of Buea */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.1, duration: 0.35 }}
-            className="border border-border rounded-lg overflow-hidden"
+        <div className="mt-8 grid gap-6 md:grid-cols-[1.45fr_0.55fr] md:items-start md:gap-8">
+          <TornSheet
+            seed={149}
+            amp={10}
+            innerClassName="bg-chalk px-5 pb-8 pt-5 sm:px-7 sm:pb-9 sm:pt-6"
           >
-            <div className="bg-paper px-5 py-4 flex items-start justify-between gap-4">
-              <div>
-                <div className="font-mono text-[10px] text-ink-faint mb-1">{t(s.ubea.school)}</div>
-                <div className="font-display text-lg font-semibold text-ink">{t(s.ubea.degree)}</div>
-                <div className="font-mono text-[11px] text-ink-muted mt-1">{t(s.ubea.period)}</div>
+            <div className="grid gap-6 sm:grid-cols-2 sm:gap-0">
+              <div className="sm:pr-6">
+                <p className="font-label text-[9px] uppercase tracking-[0.16em] text-ink-faint">
+                  {t(s.ubea.school)}
+                </p>
+                <h3 className="mt-2 font-display text-[21px] leading-[1.02] tracking-[-0.025em] sm:text-[23px]">
+                  {t(s.ubea.degree)}
+                </h3>
+                <p className="mt-2 font-label text-[10px] uppercase tracking-[0.08em] text-ink-soft">
+                  {t(s.ubea.period)}
+                </p>
+                <span className="mt-3 inline-block -rotate-1 border border-red px-1.5 py-0.5 font-label text-[8.5px] uppercase leading-[1.4] tracking-[0.1em] text-red">
+                  {t(s.ubea.note)}
+                </span>
               </div>
-              <span className="font-mono text-[10px] text-accent border border-accent/30 bg-accent-light rounded-sm px-2 py-0.5 shrink-0">
-                {t(s.ubea.note)}
-              </span>
+
+              <div className="border-t border-ink/20 pt-5 sm:border-t-0 sm:border-l sm:pl-6 sm:pt-0">
+                <p className="font-label text-[9px] uppercase tracking-[0.16em] text-ink-faint">
+                  {t(s.ceti.school)}
+                </p>
+                <h3 className="mt-2 font-display text-[21px] leading-[1.02] tracking-[-0.025em] sm:text-[23px]">
+                  {t(s.ceti.degree)}
+                </h3>
+                <p className="mt-2 font-label text-[10px] uppercase tracking-[0.08em] text-ink-soft">
+                  {t(s.ceti.period)}
+                </p>
+              </div>
             </div>
-          </motion.div>
+          </TornSheet>
 
-          {/* Ceti */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.2, duration: 0.35 }}
-            className="border border-border rounded-lg overflow-hidden"
-          >
-            <div className="bg-paper px-5 py-4">
-              <div className="font-mono text-[10px] text-ink-faint mb-1">{t(s.ceti.school)}</div>
-              <div className="font-display text-lg font-semibold text-ink">{t(s.ceti.degree)}</div>
-              <div className="font-mono text-[11px] text-ink-muted mt-1">{t(s.ceti.period)}</div>
-            </div>
-          </motion.div>
-
-          {/* Switch note */}
-          <motion.p
-            initial={{ opacity: 0, y: 8 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.3, duration: 0.35 }}
-            className="font-body text-sm text-ink-muted border-l-2 border-border pl-4"
-          >
-            {t(s.switchNote)}
-          </motion.p>
-
-          {/* Languages */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.38 }}
-          >
-            <span className="font-mono text-[11px] text-ink-faint border border-border rounded-sm px-3 py-1.5">
-              {t(s.languages)}
-            </span>
-          </motion.div>
+          <div className="relative md:-rotate-1">
+            <TornSheet
+              seed={157}
+              amp={8}
+              innerClassName="bg-red px-4 pb-7 pt-4 text-chalk"
+            >
+              <p className="font-cond text-[16px] leading-[1.3] tracking-[0.01em]">
+                {t(s.switchNote)}
+              </p>
+            </TornSheet>
+            <span className="tape absolute -top-2 left-6 h-4 w-12 rotate-2" aria-hidden="true" />
+          </div>
         </div>
       </div>
     </section>

@@ -1,165 +1,156 @@
-import { useState, useRef } from 'react'
-import { motion, useInView } from 'motion/react'
+import { useMemo, useState, type CSSProperties } from 'react'
 import { useLang } from '../context/LanguageContext'
 import { strings } from '../data/i18n'
-import { stackItems, stackGroups } from '../data/stack'
+import { stackGroups, stackItems, type StackItem } from '../data/stack'
+import TornEdge from './TornEdge'
+
+const tilts = [-1.2, 0.7, -0.4, 1.1, -0.8, 0.3, 1.4, -1.5, 0.5, -0.9, 1.2, -0.3]
 
 export default function StackMap() {
-  const { lang, t } = useLang()
-  const ref = useRef<HTMLElement>(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
-  const [hovered, setHovered] = useState<string | null>(null)
+  const { t } = useLang()
+  const [active, setActive] = useState<string | null>(null)
   const s = strings.stack
 
-  const getState = (name: string) => {
-    if (!hovered) return 'idle'
-    if (name === hovered) return 'primary'
-    const item = stackItems.find(i => i.name === hovered)
-    if (item?.connects.includes(name)) return 'connected'
-    return 'dim'
-  }
+  const activeItem = stackItems.find(i => i.name === active) ?? null
 
-  const hoverInfo = hovered
-    ? (() => {
-        const item = stackItems.find(i => i.name === hovered)
-        if (!item) return null
-        return item.connects.length
-          ? { fr: `Connecté à : ${item.connects.join(', ')}`, en: `Connected to: ${item.connects.join(', ')}` }
-          : { fr: 'Aucune connexion directe listée.', en: 'No direct connections listed.' }
-      })()
-    : null
+  const connected = useMemo(() => {
+    if (!active || !activeItem) return new Set<string>()
+    const set = new Set<string>(activeItem.connects)
+    stackItems.forEach(i => {
+      if (i.connects.includes(active)) set.add(i.name)
+    })
+    set.delete(active)
+    return set
+  }, [active, activeItem])
 
-  const dailyByGroup = stackGroups.map(g => ({
-    group: g,
-    items: stackItems.filter(i => i.tier === 'daily' && i.group === g),
-  })).filter(g => g.items.length > 0)
+  const dailyByGroup = stackGroups
+    .map(group => ({
+      group,
+      items: stackItems.filter(i => i.tier === 'daily' && i.group === group),
+    }))
+    .filter(g => g.items.length > 0)
 
-  const workingByGroup = stackGroups.map(g => ({
-    group: g,
-    items: stackItems.filter(i => i.tier === 'working' && i.group === g),
-  })).filter(g => g.items.length > 0)
+  const workingByGroup = stackGroups
+    .map(group => ({
+      group,
+      items: stackItems.filter(i => i.tier === 'working' && i.group === group),
+    }))
+    .filter(g => g.items.length > 0)
 
-  const renderTag = (item: typeof stackItems[0], delay: number) => {
-    const state = getState(item.name)
-    const isDaily = item.tier === 'daily'
+  function renderSticker(item: StackItem, i: number, daily: boolean) {
+    const isActive = active === item.name
+    const isConnected = connected.has(item.name)
+    const base = isActive
+      ? 'border-red bg-red text-chalk'
+      : daily
+        ? 'border-ink bg-ink text-chalk'
+        : 'border-ink/45 bg-chalk text-ink'
+    const ring = isConnected ? 'ring-2 ring-red ring-offset-1 ring-offset-board' : ''
+
     return (
-      <motion.button
+      <button
         key={item.name}
-        initial={{ opacity: 0, scale: 0.94 }}
-        animate={inView ? { opacity: 1, scale: 1 } : {}}
-        transition={{ delay, duration: 0.22 }}
-        onMouseEnter={() => setHovered(item.name)}
-        onMouseLeave={() => setHovered(null)}
-        aria-pressed={state === 'primary'}
-        className={`
-          font-mono text-[11px] px-2.5 py-1.5 rounded-sm border
-          transition-all duration-150 cursor-default select-none
-          ${isDaily
-            ? 'bg-ink text-paper border-ink font-medium'
-            : 'bg-paper text-ink-muted border-border'
-          }
-          ${state === 'primary' ? '!bg-accent !text-paper !border-accent scale-105 shadow-sm' : ''}
-          ${state === 'connected' ? '!border-accent !text-accent !bg-accent-light' : ''}
-          ${state === 'dim' ? 'opacity-25' : ''}
-        `}
+        type="button"
+        aria-pressed={isActive}
+        aria-describedby="stack-readout"
+        onMouseEnter={() => setActive(item.name)}
+        onMouseLeave={() => setActive(current => (current === item.name ? null : current))}
+        onFocus={() => setActive(item.name)}
+        onBlur={() => setActive(current => (current === item.name ? null : current))}
+        onClick={() => setActive(current => (current === item.name ? null : item.name))}
+        className={`sticker inline-flex cursor-pointer items-center border px-2.5 py-1.5 font-label text-[10px] uppercase leading-none tracking-[0.04em] sm:text-[10.5px] ${base} ${ring}`}
+        style={{ '--rot': `${tilts[i % tilts.length]}deg` } as CSSProperties}
       >
         {item.name}
-      </motion.button>
+      </button>
     )
   }
 
   return (
-    <section ref={ref} id="stack" className="py-24 px-6">
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="grid md:grid-cols-[1fr_2fr] gap-16 items-start mb-14">
-          <div>
-            <span className="font-mono text-[10px] text-ink-faint uppercase tracking-widest">
-              {t({ fr: '// stack', en: '// stack' })}
-            </span>
-            <motion.h2
-              initial={{ opacity: 0, y: 14 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.4 }}
-              className="font-display text-3xl md:text-4xl font-semibold text-ink leading-tight mt-2"
-            >
-              {t(s.heading)}
-            </motion.h2>
-          </div>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.15 }}
-            className="flex items-start pt-8"
+    <section id="stack" className="relative bg-board pb-20 pt-14 text-ink sm:pt-16">
+      <TornEdge color="var(--color-chalk)" variant="b" className="absolute inset-x-0 top-0 h-10" />
+
+      <div className="relative mx-auto max-w-[1400px] px-4 sm:px-6">
+        <header className="flex flex-col gap-4 border-b-2 border-ink/30 pb-4 md:flex-row md:items-end md:justify-between md:gap-10">
+          <h2
+            className="max-w-[18ch] font-display leading-[0.94] tracking-[-0.035em]"
+            style={{ fontSize: 'clamp(2rem, 4.8vw, 4rem)' }}
           >
-            <p className="font-body text-sm text-ink-muted leading-relaxed">
-              {hovered
-                ? (hoverInfo ? t(hoverInfo) : '')
-                : t({ fr: 'Passez la souris sur une technologie pour voir ses connexions.', en: 'Hover a technology to see its connections.' })
-              }
-            </p>
-          </motion.div>
+            {t(s.heading)}
+          </h2>
+          <p className="max-w-[42ch] font-cond text-[15px] uppercase leading-[1.45] tracking-[0.05em] text-ink-soft md:text-right">
+            {t(s.note)}
+          </p>
+        </header>
+
+        <div className="mt-6 flex min-h-[54px] flex-col gap-1 border-b border-ink/25 py-3 sm:flex-row sm:items-baseline sm:gap-4">
+          <span className="shrink-0 font-label text-[9px] uppercase tracking-[0.18em] text-ink-faint">
+            {active ? t(s.connects) : t(s.readout)}
+          </span>
+          <p
+            id="stack-readout"
+            aria-live="polite"
+            className="text-[13px] leading-[1.55] text-ink-soft"
+          >
+            {active && activeItem
+              ? connected.size > 0
+                ? Array.from(connected).join(' · ')
+                : t(s.noConnects)
+              : t(s.hint)}
+          </p>
         </div>
 
-        {/* Two-column: Daily | Working */}
-        <div className="grid md:grid-cols-2 gap-12 md:gap-16">
-          {/* Daily */}
-          <div>
-            <div className="flex items-baseline gap-3 mb-6 pb-3 border-b border-border">
-              <h3 className="font-display text-base font-semibold text-ink">{t(s.daily)}</h3>
-              <span className="font-body text-xs text-ink-faint">{t(s.dailyNote)}</span>
-            </div>
-            <div className="space-y-6">
-              {dailyByGroup.map(({ group, items }, gi) => (
-                <div key={group}>
-                  <div className="font-mono text-[9px] text-ink-faint uppercase tracking-widest mb-2.5">{group}</div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {items.map((item, ii) => renderTag(item, gi * 0.04 + ii * 0.03))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+        <div className="mt-8 grid gap-10 md:grid-cols-2 md:gap-14">
+          {[
+            { key: 'daily', title: s.daily, note: s.dailyNote, groups: dailyByGroup, daily: true },
+            {
+              key: 'working',
+              title: s.working,
+              note: s.workingNote,
+              groups: workingByGroup,
+              daily: false,
+            },
+          ].map(tier => (
+            <div key={tier.key}>
+              <div className="flex flex-col gap-1 border-b border-ink/25 pb-2.5 sm:flex-row sm:flex-wrap sm:items-baseline sm:gap-x-3">
+                <h3 className="font-display text-[19px] leading-none tracking-[-0.02em] text-ink">
+                  {t(tier.title)}
+                </h3>
+                <p className="max-w-[38ch] font-label text-[9px] uppercase leading-relaxed tracking-[0.06em] text-ink-faint">
+                  {t(tier.note)}
+                </p>
+              </div>
 
-          {/* Working knowledge */}
-          <div>
-            <div className="flex items-baseline gap-3 mb-6 pb-3 border-b border-border">
-              <h3 className="font-display text-base font-semibold text-ink">{t(s.working)}</h3>
-              <span className="font-body text-xs text-ink-faint">{t(s.workingNote)}</span>
-            </div>
-            <div className="space-y-6">
-              {workingByGroup.map(({ group, items }, gi) => (
-                <div key={group}>
-                  <div className="font-mono text-[9px] text-ink-faint uppercase tracking-widest mb-2.5">{group}</div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {items.map((item, ii) => renderTag(item, 0.3 + gi * 0.04 + ii * 0.03))}
+              <div className="mt-5 space-y-5">
+                {tier.groups.map(({ group, items }, gi) => (
+                  <div key={group}>
+                    <p className="font-label text-[8.5px] uppercase tracking-[0.18em] text-ink-faint">
+                      {group}
+                    </p>
+                    <div className="mt-2 flex flex-wrap gap-x-2 gap-y-2.5">
+                      {items.map((item, ii) => renderSticker(item, gi * 5 + ii, tier.daily))}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+          ))}
         </div>
 
-        {/* Legend */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.7 }}
-          className="mt-10 flex items-center gap-6 border-t border-border pt-6"
-        >
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-sm bg-ink" />
-            <span className="font-body text-xs text-ink-muted">{t(s.daily)}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-sm border border-border bg-paper" />
-            <span className="font-body text-xs text-ink-muted">{t(s.working)}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-sm border border-accent bg-accent-light" />
-            <span className="font-body text-xs text-ink-muted">{t({ fr: 'Connexion', en: 'Connected' })}</span>
-          </div>
-        </motion.div>
+        <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-ink/25 pt-4 font-label text-[9px] uppercase tracking-[0.08em] text-ink-faint">
+          <span className="flex items-center gap-2">
+            <span aria-hidden="true" className="h-3.5 w-5 border border-ink bg-ink" />
+            {t(s.daily)}
+          </span>
+          <span className="flex items-center gap-2">
+            <span aria-hidden="true" className="h-3.5 w-5 border border-ink/45 bg-chalk" />
+            {t(s.working)}
+          </span>
+          <span className="flex items-center gap-2">
+            <span aria-hidden="true" className="h-3.5 w-5 border border-red bg-red" />
+            {t(s.legendConnected)}
+          </span>
+        </div>
       </div>
     </section>
   )
